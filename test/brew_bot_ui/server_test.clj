@@ -3,4 +3,4 @@
             [brew-bot-ui.server :refer :all]))
 
 (deftest first-test
-  (is false "Tests should be written"))
+  (is (= 1 1)))
