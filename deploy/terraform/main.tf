@@ -19,7 +19,7 @@ resource "heroku_app" "server" {
 
 resource "heroku_addon" "database" {
   app  = "${heroku_app.server.name}"
-  plan = "heroku-postgresql:hobby-basic"
+  plan = "heroku-postgresql:hobby-dev"
 }
 
 # Logging via papertrail
