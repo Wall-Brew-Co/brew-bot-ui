@@ -31,11 +31,11 @@ resource "heroku_addon" "logging" {
 # Build code & release to the app
 resource "heroku_build" "server" {
   app = "${heroku_app.server.name}"
-  buildpacks = ["https://github.com/mars/create-react-app-buildpack.git"]
+  buildpacks = ["https://github.com/heroku/heroku-buildpack-clojure.git"]
 
   source = {
-    url = "https://github.com/mars/cra-example-app/archive/v2.1.1.tar.gz"
-    version = "2.1.1"
+    url = "https://github.com/nnichols/brew-bot-ui/archive/v0.0.0.tar.gz"
+    version = "0.0.0"
   }
 }
 

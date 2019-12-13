@@ -8,5 +8,5 @@
                  [ring/ring-jetty-adapter "1.7.1"]]
   :min-lein-version "2.0.0"
   :uberjar-name "brew-bot-ui.jar"
-  :main ^:skip-aot brew-bot-ui.server
+  :main brew-bot-ui.server
   :profiles {:production {:env {:production true}}})
