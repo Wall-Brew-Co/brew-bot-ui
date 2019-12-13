@@ -2,23 +2,35 @@ provider "heroku" {
   version = "~> 2.0"
 }
 
+# Remote state repository for terraform
 terraform {
   backend "pg" {
   }
 }
 
-variable "example_app_name" {
-  description = "Name of the Heroku app provisioned as an example"
+variable "app_name" {
+  description = "Name of the Heroku application"
 }
 
-resource "heroku_app" "example" {
-  name = "${var.example_app_name}"
+resource "heroku_app" "server" {
+  name = "${var.app_name}"
   region = "us"
 }
 
+resource "heroku_addon" "database" {
+  app  = "${heroku_app.server.name}"
+  plan = "heroku-postgresql:hobby-basic"
+}
+
+# Logging via papertrail
+resource "heroku_addon" "logging" {
+  app  = "${heroku_app.server.name}"
+  plan = "papertrail:choklad"
+}
+
 # Build code & release to the app
-resource "heroku_build" "example" {
-  app = "${heroku_app.example.name}"
+resource "heroku_build" "server" {
+  app = "${heroku_app.server.name}"
   buildpacks = ["https://github.com/mars/create-react-app-buildpack.git"]
 
   source = {
@@ -28,14 +40,14 @@ resource "heroku_build" "example" {
 }
 
 # Launch the app's web process by scaling-up
-resource "heroku_formation" "example" {
-  app        = "${heroku_app.example.name}"
+resource "heroku_formation" "server" {
+  app        = "${heroku_app.server.name}"
   type       = "web"
   quantity   = 1
-  size       = "Standard-1x"
-  depends_on = ["heroku_build.example"]
+  size       = "free"
+  depends_on = ["heroku_build.server"]
 }
 
-output "example_app_url" {
-  value = "https://${heroku_app.example.name}.herokuapp.com"
+output "app_url" {
+  value = "https://${heroku_app.server.name}.herokuapp.com"
 }
