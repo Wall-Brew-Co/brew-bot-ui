@@ -1,5 +1,4 @@
-(ns brew-bot-ui.config
-  (:require [clojure.core.memoize :as memo]))
+(ns brew-bot-ui.config)
 
 (def environment
   (or (System/getenv "HEROKU_ENV") "dev"))
