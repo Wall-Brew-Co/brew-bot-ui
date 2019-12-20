@@ -8,7 +8,8 @@
                  [nnichols "0.4.0"]
                  [ring/ring-jetty-adapter "1.8.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [ring-logger "1.0.1"]]
+                 [ring-logger "1.0.1"]
+                 [trptcolin/versioneer "0.2.0"]]
   :min-lein-version "2.0.0"
   :uberjar-name "brew-bot-ui.jar"
   :main brew-bot-ui.server

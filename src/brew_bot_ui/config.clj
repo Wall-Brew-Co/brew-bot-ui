@@ -1,4 +1,9 @@
-(ns brew-bot-ui.config)
+(ns brew-bot-ui.config
+  (:require [trptcolin.versioneer.core :as versioneer]))
+
+(def app-info
+  (memoize #(hash-map :app "brew-bot-ui"
+                      :version (versioneer/get-version "brew-bot-ui" "brew-bot-ui"))))
 
 (def environment
   (or (System/getenv "HEROKU_ENV") "dev"))

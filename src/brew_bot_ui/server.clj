@@ -8,7 +8,7 @@
             [clojure.tools.logging :as log]
             [nnichols.http :as nhttp]
             [ring.adapter.jetty :as jetty]
-            [ring.middleware.defaults :refer [wrap-defaults secure-site-defaults]]))
+            [ring.middleware.defaults :as ring]))
 
 (defn splash []
   {:status 200
@@ -20,16 +20,31 @@
                 (splash))
            (GET "/heartbeat" []
                 (nhttp/bodiless-json-response 200))
+           (GET "/info" []
+             {:status 200 :body (config/app-info)})
            (ANY "*" []
                 (route/not-found (slurp (io/resource "404.html")))))
 
 (def app
-  (-> (wrap-defaults app-routes secure-site-defaults)
+  (-> (ring/wrap-defaults app-routes ring/secure-site-defaults)
       mw/wrap-ignore-trailing-slash
       mw/wrap-internal-error
       mw/wrap-logging))
 
+(defn- wrap-app-error-handling
+  "Ensure any application level errors are appropriately logged"
+  [func]
+  (try
+    (func)
+    (catch Throwable t
+      (.println System/err (str "Error in brew-bot-ui: " t))
+      (log/error t "Error in brew-bout-ui")
+      (throw t))))
+
+(defmacro with-error-handling
+  [& body]
+  `(wrap-app-error-handling (fn [] ~@body)))
+
 (defn -main
-  [& [port]]
-  (let [port (Integer. (or port config/port 5000))]
-    (jetty/run-jetty (site #'app) {:port port :join? false})))
+  [& args]
+  (with-error-handling (jetty/run-jetty (site #'app) {:port config/port :join? false})))
