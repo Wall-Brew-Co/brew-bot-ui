@@ -9,7 +9,7 @@
   (or (System/getenv "HEROKU_ENV") "dev"))
 
 (def port
-  (or (System/getenv "PORT") "8000"))
+  (or (System/getenv "PORT") 8000))
 
 (def ^:const features
   {"dev"  {:route-logging true}

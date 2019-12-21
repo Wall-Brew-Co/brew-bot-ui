@@ -12,7 +12,7 @@
                  [trptcolin/versioneer "0.2.0"]]
   :min-lein-version "2.0.0"
   :uberjar-name "brew-bot-ui.jar"
-  :main brew-bot-ui.server
+  :main brew-bot-ui.main
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler brew-bot-ui.server/app}
   :aliases {"test-build" ["do" "clean" ["test"]]}
