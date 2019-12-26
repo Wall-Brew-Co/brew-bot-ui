@@ -12,6 +12,9 @@
 (def port
   (or (parse/try-parse-int (System/getenv "PORT")) 8000))
 
+(def database-url
+  (System/getenv "DATABASE_URL"))
+
 (def ^:const features
   {"dev"  {:route-logging true}
    "test" {:route-logging false}

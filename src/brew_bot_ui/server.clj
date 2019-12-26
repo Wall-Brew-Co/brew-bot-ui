@@ -32,7 +32,7 @@
         "trace" #(log/trace %)
         #(log/info %)) (-> body-params
                            (dissoc :level)
-                          (assoc :version config/app-info)))
+                           (assoc :version config/app-info)))
     {:status 201})
 
   (ANY "*" []
