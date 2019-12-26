@@ -1,5 +1,6 @@
 (ns brew-bot-ui.config
-  (:require [trptcolin.versioneer.core :as versioneer]))
+  (:require [nnichols.parse :as parse]
+            [trptcolin.versioneer.core :as versioneer]))
 
 (def app-info
   (memoize #(hash-map :app "brew-bot-ui"
@@ -9,7 +10,7 @@
   (or (System/getenv "HEROKU_ENV") "dev"))
 
 (def port
-  (or (System/getenv "PORT") 8000))
+  (or (parse/try-parse-int (System/getenv "PORT")) 8000))
 
 (def ^:const features
   {"dev"  {:route-logging true}

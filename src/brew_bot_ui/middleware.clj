@@ -1,8 +1,12 @@
 (ns brew-bot-ui.middleware
   (:require [brew-bot-ui.config :as config]
             [clojure.tools.logging :as log]
+            [compojure.handler :as handler]
             [nnichols.http :as http]
-            [ring.logger :as logger]))
+            [ring.logger :as logger]
+            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+            [ring.middleware.defaults :as ring]
+            [ring.middleware.x-headers :refer [wrap-xss-protection]]))
 
 (defn wrap-ignore-trailing-slash
   "Modifies the request uri before calling the handler.
@@ -30,7 +34,7 @@
            (http/bodiless-json-response 500)))))
 
 (defn wrap-logging
-  "Silences logging for test environments"
+  "Silences route-level logging for test environments"
   [handler]
   (fn [request]
     (let [wrapped-handler (-> handler
@@ -39,3 +43,19 @@
       (if config/log-routes?
         (wrapped-handler request)
         (handler request)))))
+
+(defn wrap-anti-forgery-check
+  "Block all requests with invalid CSRF protection tokens"
+  [handler]
+  (wrap-anti-forgery handler {:error-response (http/bodiless-json-response 500)}))
+
+(defn wrap-base
+  "The specialty handlers invoked for every HTTP(S) call"
+  [handler]
+  (-> handler
+      (ring/wrap-defaults ring/secure-site-defaults)
+      wrap-ignore-trailing-slash
+      (wrap-xss-protection true {:mode :block})
+      wrap-anti-forgery-check
+      wrap-internal-error
+      wrap-logging))

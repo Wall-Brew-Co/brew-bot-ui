@@ -1,11 +1,11 @@
 (ns brew-bot-ui.server
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.middleware :as mw]
+            [brew-bot-ui.middleware :as middleware]
             [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
-            [nnichols.http :as nhttp]
-            [ring.middleware.defaults :as ring]))
+            [clojure.tools.logging :as log]
+            [nnichols.http :as nhttp]))
 
 (defn splash []
   {:status 200
@@ -13,17 +13,31 @@
    :body "Hello from Heroku"})
 
 (defroutes app-routes
-           (GET "/" []
-                (splash))
-           (GET "/heartbeat" []
-                (nhttp/bodiless-json-response 200))
-           (GET "/info" []
-             {:status 200 :body (config/app-info)})
-           (ANY "*" []
-                (route/not-found (slurp (io/resource "404.html")))))
+  (GET "/" []
+    (splash))
+
+  (GET "/heartbeat" []
+    (nhttp/bodiless-json-response 200))
+
+  (GET "/info" []
+    {:status 200 :body (config/app-info)})
+
+  (PUT "/v1/log" [_ :as {:keys [body-params]}]
+    ((case (:level body-params)
+        "fatal" #(log/fatal %)
+        "error" #(log/error %)
+        "warn"  #(log/warn %)
+        "info"  #(log/info %)
+        "debug" #(log/debug %)
+        "trace" #(log/trace %)
+        #(log/info %)) (-> body-params
+                           (dissoc :level)
+                          (assoc :version config/app-info)))
+    {:status 201})
+
+  (ANY "*" []
+    (route/not-found (slurp (io/resource "404.html")))))
 
 (def app
-  (-> (ring/wrap-defaults app-routes ring/secure-site-defaults)
-      mw/wrap-ignore-trailing-slash
-      mw/wrap-internal-error
-      mw/wrap-logging))
+  "The actual ring handler that is run -- this is the routes above wrapped in various middlewares."
+  (middleware/wrap-base app-routes))
