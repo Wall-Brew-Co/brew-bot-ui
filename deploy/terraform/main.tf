@@ -12,6 +12,10 @@ variable "app_name" {
   description = "Name of the Heroku application"
 }
 
+variable "app_version" {
+  description = "Current, tagged version of the application"
+}
+
 resource "heroku_app" "server" {
   name = "${var.app_name}"
   region = "us"
@@ -34,8 +38,8 @@ resource "heroku_build" "server" {
   buildpacks = ["https://github.com/heroku/heroku-buildpack-clojure.git"]
 
   source = {
-    url = "https://github.com/nnichols/brew-bot-ui/archive/v0.0.0.tar.gz"
-    version = "0.0.0"
+    url = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
+    version = "${var.app_version}"
   }
 }
 
