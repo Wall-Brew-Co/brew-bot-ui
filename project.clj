@@ -1,4 +1,4 @@
-(defproject brew-bot-ui "0.0.0"
+(defproject brew-bot-ui "0.1.0"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"

@@ -1,7 +1,7 @@
-# Pick a unique app name
-export APP_NAME=my-terraform-backend
+# Target the remote state tracker
+export APP_NAME=brew-bot-backend
 
-# Create the database
+# Create the database to track terraform state
 heroku create $APP_NAME
 heroku addons:create heroku-postgresql:hobby-dev --app $APP_NAME
 
