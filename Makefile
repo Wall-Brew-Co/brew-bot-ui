@@ -10,7 +10,9 @@ VER = `sed -n -e "s/^.*defproject .* \"\(.*\)\"/\1/p" project.clj;`
 # These are the main targets that we'll be making
 #
 
-all: jar tests
+tests/server:
+	$(info Running server-side tests...)
+	@ HEROKU_ENV=test $(LEIN) test
 
 version/major:
 	$(info Updating major version and adding CHANGELOG entry...)

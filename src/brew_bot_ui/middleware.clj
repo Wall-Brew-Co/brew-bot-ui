@@ -6,6 +6,7 @@
             [ring.logger :as logger]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.defaults :as ring]
+            [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.x-headers :refer [wrap-xss-protection]]))
 
 (defn wrap-ignore-trailing-slash
@@ -49,13 +50,29 @@
   [handler]
   (wrap-anti-forgery handler {:error-response (http/bodiless-json-response 500)}))
 
+(def ring-default-options
+  "Update ring's default secure options to account for Heroku's balancers/test modes"
+  (-> ring/secure-site-defaults
+      (assoc :proxy true)
+      (assoc-in [:security :ssl-redirect] config/force-ssl?)))
+
+(defn wrap-json-conformer
+  "Don't conform return values to JSON when testing for easier assertions"
+  [handler]
+  (fn [request]
+    (let [wrapped-handler (wrap-json-response handler)]
+      (if config/force-json?
+        (wrapped-handler request)
+        (handler request)))))
+
 (defn wrap-base
   "The specialty handlers invoked for every HTTP(S) call"
   [handler]
   (-> handler
-      (ring/wrap-defaults ring/secure-site-defaults)
-      wrap-ignore-trailing-slash
+      wrap-json-conformer
       (wrap-xss-protection true {:mode :block})
       wrap-anti-forgery-check
       wrap-internal-error
+      (ring/wrap-defaults ring-default-options)
+      wrap-ignore-trailing-slash
       wrap-logging))
