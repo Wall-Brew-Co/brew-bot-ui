@@ -12,6 +12,10 @@ variable "app_name" {
   description = "Name of the Heroku application"
 }
 
+variable "app_version" {
+  description = "Current, tagged version of the application"
+}
+
 resource "heroku_app" "server" {
   name = "${var.app_name}"
   region = "us"
@@ -19,7 +23,7 @@ resource "heroku_app" "server" {
 
 resource "heroku_addon" "database" {
   app  = "${heroku_app.server.name}"
-  plan = "heroku-postgresql:hobby-basic"
+  plan = "heroku-postgresql:hobby-dev"
 }
 
 # Logging via papertrail
@@ -31,11 +35,11 @@ resource "heroku_addon" "logging" {
 # Build code & release to the app
 resource "heroku_build" "server" {
   app = "${heroku_app.server.name}"
-  buildpacks = ["https://github.com/mars/create-react-app-buildpack.git"]
+  buildpacks = ["https://github.com/heroku/heroku-buildpack-clojure.git"]
 
   source = {
-    url = "https://github.com/mars/cra-example-app/archive/v2.1.1.tar.gz"
-    version = "2.1.1"
+    url = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
+    version = "${var.app_version}"
   }
 }
 

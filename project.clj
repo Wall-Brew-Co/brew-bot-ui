@@ -1,12 +1,22 @@
-(defproject brew-bot-ui "1.0.0-SNAPSHOT"
+(defproject brew-bot-ui "0.1.0"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.10.0"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
                  [compojure "1.6.1"]
-                 [ring/ring-jetty-adapter "1.7.1"]]
+                 [nnichols "0.5.0"]
+                 [ring-logger "1.0.1"]
+                 [ring/ring-jetty-adapter "1.8.0"]
+                 [ring/ring-json "0.5.0"]
+                 [ring/ring-defaults "0.3.2"]
+                 [trptcolin/versioneer "0.2.0"]]
   :min-lein-version "2.0.0"
   :uberjar-name "brew-bot-ui.jar"
-  :main ^:skip-aot brew-bot-ui.server
-  :profiles {:production {:env {:production true}}})
+  :main brew-bot-ui.main
+  :plugins [[lein-ring "0.12.5"]]
+  :ring {:handler brew-bot-ui.server/app}
+  :aliases {"test-build" ["do" "clean" ["test"]]}
+  :profiles {:production {:env {:production true}}
+             :dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+                                   [ring/ring-mock "0.4.0"]]}})
