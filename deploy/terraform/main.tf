@@ -8,6 +8,7 @@ terraform {
   }
 }
 
+# Terraform variables
 variable "app_name" {
   description = "Name of the Heroku application"
 }
@@ -16,11 +17,17 @@ variable "app_version" {
   description = "Current, tagged version of the application"
 }
 
+#
+# Resources to provision
+#
+
+# Provision the main Dyno
 resource "heroku_app" "server" {
   name = "${var.app_name}"
   region = "us"
 }
 
+# Provision a PSQL database
 resource "heroku_addon" "database" {
   app  = "${heroku_app.server.name}"
   plan = "heroku-postgresql:hobby-dev"
@@ -31,6 +38,16 @@ resource "heroku_addon" "logging" {
   app  = "${heroku_app.server.name}"
   plan = "papertrail:choklad"
 }
+
+# Tinfoil security scanner
+resource "heroku_addon" "security" {
+  app  = "${heroku_app.server.name}"
+  plan = "tinfoilsecurity:limited"
+}
+
+#
+# Build Plan
+#
 
 # Build code & release to the app
 resource "heroku_build" "server" {

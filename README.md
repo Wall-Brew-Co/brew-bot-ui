@@ -39,7 +39,7 @@ In the example below, we'd be preparing to deploy the tag `v0.1.0` to production
 terraform plan -var app_name=brew-bot-server -var app_version=v0.1.0 -out=current.tfplan
 ```
 
-## Execute that plan remotely
+### Execute that plan remotely
 
 Once the plan has been reported back to you, and you're comfortable with the reported changes, you can execute that plan against remote state.
 

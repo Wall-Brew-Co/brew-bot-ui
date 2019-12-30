@@ -3,7 +3,8 @@
             [brew-bot-ui.server :as server]
             [clojure.tools.logging :as log]
             [compojure.handler :refer [site]]
-            [ring.adapter.jetty :as jetty]))
+            [ring.adapter.jetty :as jetty])
+  (:gen-class))
 
 (defn- wrap-app-error-handling
   "Ensure any application level errors are appropriately logged"
