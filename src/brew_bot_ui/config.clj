@@ -15,7 +15,17 @@
   (or (parse/try-parse-int (System/getenv "PORT")) 8000))
 
 (def database-url
-  (System/getenv "DATABASE_URL"))
+  (java.net.URI. (or (System/getenv "DATABASE_URL")
+                     "postgresql://localhost:5432/ticks")))
+
+(def database-name
+  (System/getenv "DATABASE_NAME"))
+
+(def database-config
+  {:adapter       "postgresql"
+   :database-name database-name
+   :pool-name     "brew-bot-cp"
+   :server-name   database-url})
 
 (def ^:const features
   {"dev"  {:route-logging true
