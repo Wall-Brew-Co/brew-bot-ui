@@ -1,5 +1,7 @@
 (ns brew-bot-ui.db
   (:require [brew-bot-ui.config :as config]
+            [cheshire.core :as json]
+            [clj-time.core :as time]
             [clojure.string :as cs]
             [clojure.tools.logging :as log]
             [honeysql.core :as hsql]
@@ -10,7 +12,8 @@
             [next.jdbc.connection :as connection]
             [next.jdbc.sql :as sql]
             [next.jdbc.result-set :as r-set]
-            [nnichols.parse :as np])
+            [nnichols.parse :as np]
+            [nnichols.util :as nu])
   (:import (com.zaxxer.hikari HikariDataSource)))
 
 (def db-spec
@@ -45,3 +48,18 @@
                            (helpers/from :beer_recipes)
                            (helpers/where [:= :recipe_id recipe-uuid])))]
     (execute! q)))
+
+(defn insert-recipe
+  [recipe-data recipe-generator metadata]
+  (let [recipe-json   (hsql/call :jsonb (json/generate-string recipe-data))
+        metadata-json (hsql/call :jsonb (json/generate-string metadata))
+        created-at    (time/now)
+        recipe-id     (nu/uuid)
+        row [{:recipe_id      recipe-json
+              :created_at     created-at
+              :generator_type recipe-generator
+              :recipe         recipe-json
+              :metadata       metadata-json}]
+        q (hsql/format (-> (helpers/insert-into :beer_recipes)
+                           (helpers/values row)))]
+     (execute! q)))

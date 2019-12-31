@@ -3,7 +3,9 @@
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[circleci/rollcage "1.0.203"]
+  :dependencies [[cheshire "5.9.0"]
+                 [circleci/rollcage "1.0.203"]
+                 [clj-time "0.15.2"]
                  [com.fzakaria/slf4j-timbre "0.3.17"]
                  [com.zaxxer/HikariCP "3.3.1"]
                  [compojure "1.6.1"]
