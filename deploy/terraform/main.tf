@@ -45,6 +45,12 @@ resource "heroku_addon" "security" {
   plan = "tinfoilsecurity:limited"
 }
 
+# Sqreen application monitoring
+resource "heroku_addon" "waf" {
+  app  = "${heroku_app.server.name}"
+  plan = "sqreen:developer"
+}
+
 #
 # Build Plan
 #
