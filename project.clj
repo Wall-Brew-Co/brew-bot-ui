@@ -15,6 +15,9 @@
                  [ring/ring-json "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
                  [trptcolin/versioneer "0.2.0"]]
+  :source-paths ["src/clj"]
+  :test-paths ["test/clj"]
+  :target-path "target/"
   :min-lein-version "2.0.0"
   :uberjar-name "brew-bot-ui.jar"
   :main brew-bot-ui.main
