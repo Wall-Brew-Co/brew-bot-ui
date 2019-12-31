@@ -1,6 +1,6 @@
-(ns brew-bot-ui.server
+(ns brew-bot-ui.http.server
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.middleware :as middleware]
+            [brew-bot-ui.http.middleware :as middleware]
             [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -10,7 +10,7 @@
 (defn splash []
   {:status 200
    :headers {"Content-Type" "text/plain"}
-   :body "Hello from Heroku"})
+   :body "Hello from brew-bot!"})
 
 (defroutes app-routes
   (GET "/" []

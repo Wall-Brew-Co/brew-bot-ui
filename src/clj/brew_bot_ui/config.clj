@@ -15,7 +15,24 @@
   (or (parse/try-parse-int (System/getenv "PORT")) 8000))
 
 (def database-url
-  (System/getenv "DATABASE_URL"))
+  (java.net.URI. (or (System/getenv "DATABASE_URL")
+                     "postgresql://localhost:5432/brew-bot")))
+
+(def jdbc-url
+  (or (System/getenv "JDBC_DATABASE_URL")
+      "jdbc:postgresql://localhost:5432/brew-bot"))
+
+(def database-name
+  (System/getenv "DATABASE_NAME"))
+
+(def rollcage-token
+  (System/getenv "ROLLBAR_ACCESS_TOKEN"))
+
+(def database-config
+  {:adapter       "postgresql"
+   :database-name database-name
+   :pool-name     "brew-bot-cp"
+   :server-name   database-url})
 
 (def ^:const features
   {"dev"  {:route-logging true

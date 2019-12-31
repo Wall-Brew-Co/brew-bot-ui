@@ -45,6 +45,12 @@ resource "heroku_addon" "security" {
   plan = "tinfoilsecurity:limited"
 }
 
+# Rollbar application monitoring
+resource "heroku_addon" "monitor" {
+  app  = "${heroku_app.server.name}"
+  plan = "rollbar:free"
+}
+
 #
 # Build Plan
 #
