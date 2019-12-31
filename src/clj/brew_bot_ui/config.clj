@@ -16,7 +16,11 @@
 
 (def database-url
   (java.net.URI. (or (System/getenv "DATABASE_URL")
-                     "postgresql://localhost:5432")))
+                     "postgresql://localhost:5432/brew-bot")))
+
+(def jdbc-url
+  (or (System/getenv "JDBC_DATABASE_URL")
+      "jdbc:postgresql://localhost:5432/brew-bot"))
 
 (def database-name
   (System/getenv "DATABASE_NAME"))

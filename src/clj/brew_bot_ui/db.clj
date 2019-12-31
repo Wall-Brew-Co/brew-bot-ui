@@ -1,47 +1,47 @@
 (ns brew-bot-ui.db
   (:require [brew-bot-ui.config :as config]
-            [clojure.java.jdbc :as jdbc]
             [clojure.string :as cs]
-            [honeysql.core :as sql]
+            [clojure.tools.logging :as log]
+            [honeysql.core :as hsql]
             [honeysql.helpers :as helpers]
             [honeysql-postgres.format] ;must be required for the extension to work
             [honeysql-postgres.helpers :as pghelpers]
-            [jdbc.pool.c3p0 :as pool]
+            [next.jdbc :as jdbc]
+            [next.jdbc.connection :as connection]
+            [next.jdbc.sql :as sql]
+            [next.jdbc.result-set :as r-set]
             [nnichols.parse :as np])
-  (:import com.mchange.v2.c3p0.ComboPooledDataSource))
+  (:import (com.zaxxer.hikari HikariDataSource)))
 
-(def db-creds
-  (when-let [user-info (.getUserInfo config/database-url)]
-    (cs/split user-info #":")))
+(def db-spec
+  {:maximumPoolSize 5
+   :poolName        "bb-db-pool"
+   :jdbcUrl         config/jdbc-url})
 
-(def connection
-  (let [username (first db-creds)
-        password (second db-creds)
-        db-host  (.getHost config/database-url)
-        db-path  (.getPath config/database-url)
-        subname  (if (= -1 (.getPort config/database-url))
-                   (format "//%s%s" db-host db-path)
-                   (format "//%s:%s%s" db-host (.getPort config/database-url) db-path))]
-    (pool/make-datasource-spec
-     {:classname   "org.postgresql.Driver"
-      :subprotocol "postgresql"
-      :user        username
-      :password    password
-      :subname     subname
-      :ssl         true})))
+(def query-defaults
+  {:builder-fn r-set/as-unqualified-lower-maps})
+
+(defn execute!
+  "Wrap JDBC's `execute!` to simplify using the connection pool"
+  ([query]
+   (execute! query query-defaults))
+
+  ([query opts]
+   (with-open [^HikariDataSource data-source (connection/->pool HikariDataSource db-spec)]
+     (jdbc/execute! data-source query (merge query-defaults opts)))))
+
 
 (defn get-all-recipes
   []
-  (let [q (sql/format (-> (helpers/select :*)
-                          (helpers/from :beer_recipes)))
-        result (jdbc/query connection q)]
-    result))
+  (let [q (hsql/format (-> (helpers/select :*)
+                           (helpers/from :beer_recipes)))]
+    (execute! q)))
+
 
 (defn get-recipe-by-id
   [recipe-id]
   (let [recipe-uuid (np/parse-uuid recipe-id)
-        q (sql/format (-> (helpers/select :*)
-                          (helpers/from :beer_recipes)
-                          (helpers/where [:= :recipe_id recipe-uuid])))
-        result (jdbc/query connection q)]
-    (first result)))
+        q (hsql/format (-> (helpers/select :*)
+                           (helpers/from :beer_recipes)
+                           (helpers/where [:= :recipe_id recipe-uuid])))]
+    (execute! q)))
