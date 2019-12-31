@@ -1,5 +1,5 @@
 (ns brew-bot-ui.server-test
-  (:require [brew-bot-ui.server :refer :all]
+  (:require [brew-bot-ui.http.server :refer :all]
             [clojure.string :as cs]
             [clojure.test :refer :all]
             [ring.mock.request :as mock]))
@@ -16,7 +16,7 @@
   (testing "Main route"
     (let [response (local-api-test :get "/")]
       (is (= (:status response) 200))
-      (is (= (:body response) "Hello from Heroku"))))
+      (is (= (:body response) "Hello from brew-bot!"))))
 
   (testing "App info route"
     (let [response (local-api-test :get "/info")]

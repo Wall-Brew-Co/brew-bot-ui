@@ -1,6 +1,6 @@
 (ns brew-bot-ui.main
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.server :as server]
+            [brew-bot-ui.http.server :as server]
             [circleci.rollcage.core :as rollcage]
             [clojure.tools.logging :as log]
             [compojure.handler :refer [site]]

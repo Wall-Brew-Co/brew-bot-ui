@@ -1,4 +1,4 @@
-(ns brew-bot-ui.middleware
+(ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
             [clojure.tools.logging :as log]
             [compojure.handler :as handler]
