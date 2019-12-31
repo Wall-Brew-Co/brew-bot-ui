@@ -6,7 +6,8 @@
             [honeysql.helpers :as helpers]
             [honeysql-postgres.format] ;must be required for the extension to work
             [honeysql-postgres.helpers :as pghelpers]
-            [jdbc.pool.c3p0 :as pool])
+            [jdbc.pool.c3p0 :as pool]
+            [nnichols.parse :as np])
   (:import com.mchange.v2.c3p0.ComboPooledDataSource))
 
 (def db-creds
@@ -26,8 +27,21 @@
       :subprotocol "postgresql"
       :user        username
       :password    password
-      :subname     subname})))
+      :subname     subname
+      :ssl         true})))
 
-(defn example-query
+(defn get-all-recipes
   []
-  (jdbc/query connection ["QUERY HERE"]))
+  (let [q (sql/format (-> (helpers/select :*)
+                          (helpers/from :beer_recipes)))
+        result (jdbc/query connection q)]
+    result))
+
+(defn get-recipe-by-id
+  [recipe-id]
+  (let [recipe-uuid (np/parse-uuid recipe-id)
+        q (sql/format (-> (helpers/select :*)
+                          (helpers/from :beer_recipes)
+                          (helpers/where [:= :recipe_id recipe-uuid])))
+        result (jdbc/query connection q)]
+    (first result)))
