@@ -3,7 +3,8 @@
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
+  :dependencies [[circleci/rollcage "1.0.203"]
+                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [compojure "1.6.1"]
                  [honeysql "0.9.8"]
                  [nilenso/honeysql-postgres "0.2.6"]

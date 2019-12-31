@@ -45,10 +45,10 @@ resource "heroku_addon" "security" {
   plan = "tinfoilsecurity:limited"
 }
 
-# Sqreen application monitoring
-resource "heroku_addon" "waf" {
+# Rollbar application monitoring
+resource "heroku_addon" "monitor" {
   app  = "${heroku_app.server.name}"
-  plan = "sqreen:developer"
+  plan = "rollbar:free"
 }
 
 #

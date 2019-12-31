@@ -21,6 +21,9 @@
 (def database-name
   (System/getenv "DATABASE_NAME"))
 
+(def rollcage-token
+  (System/getenv "ROLLBAR_ACCESS_TOKEN"))
+
 (def database-config
   {:adapter       "postgresql"
    :database-name database-name
