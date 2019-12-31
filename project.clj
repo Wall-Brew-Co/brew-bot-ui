@@ -10,6 +10,8 @@
                  [nnichols "0.5.0"]
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/java.jdbc "0.7.11"]
+                 [org.postgresql/postgresql "9.4-1201-jdbc41"]
+                 [ragtime "0.8.0"]
                  [ring-logger "1.0.1"]
                  [ring/ring-jetty-adapter "1.8.0"]
                  [ring/ring-json "0.5.0"]

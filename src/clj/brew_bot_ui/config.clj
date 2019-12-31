@@ -16,7 +16,7 @@
 
 (def database-url
   (java.net.URI. (or (System/getenv "DATABASE_URL")
-                     "postgresql://localhost:5432/ticks")))
+                     "postgresql://localhost:5432")))
 
 (def database-name
   (System/getenv "DATABASE_NAME"))
