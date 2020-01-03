@@ -1,6 +1,6 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
-            [clojure.tools.logging :as log]
+            [brew-bot-ui.logging :as log]
             [compojure.handler :as handler]
             [nnichols.http :as http]
             [ring.logger :as logger]
@@ -29,9 +29,7 @@
   (fn [request]
     (try (handler request)
          (catch Throwable t
-           (log/error {:message "Uncaught handler error"
-                       :x-session-id (get-in request [:headers "x-session-id"])
-                       :error t})
+           (log/error t)
            (http/bodiless-json-response 500)))))
 
 (defn wrap-logging
