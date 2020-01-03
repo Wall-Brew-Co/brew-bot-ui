@@ -4,7 +4,7 @@
  :license {:name "Eclipse Public License v1.0"
            :url "http://www.eclipse.org/legal/epl-v10.html"}
  :dependencies [[antizer "0.3.1"]
-                [brew-bot "2.0.0-test"]
+                [brew-bot "2.0.0-test"] ;; TODO - replace this with the real library version
                 [cheshire "5.9.0"]
                 [cider/piggieback "0.4.2"]
                 [circleci/rollcage "1.0.203"]
