@@ -4,6 +4,7 @@
  :license {:name "Eclipse Public License v1.0"
            :url "http://www.eclipse.org/legal/epl-v10.html"}
  :dependencies [[antizer "0.3.1"]
+                [brew-bot "2.0.0-test"]
                 [cheshire "5.9.0"]
                 [cider/piggieback "0.4.2"]
                 [circleci/rollcage "1.0.203"]
@@ -67,7 +68,9 @@
                                                           "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
 
  :ring {:handler brew-bot-ui.server/app}
- :aliases {"test-build" ["do" "clean" ["test"]]}
+ :aliases {"prod-build" ["do" "clean" ["cljsbuild" "once" "prod"]]
+           "dev-build"  ["do" "clean" ["cljsbuild" "once" "dev"] "figwheel"]
+           "test-build" ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
  :profiles {:production {:env {:production true}}
             :repl {:main brew-bot-ui.core}
             :dev {:dependencies [[doo "0.1.11"]
