@@ -36,7 +36,7 @@
     {:status 201})
 
   (ANY "*" []
-    (route/not-found (slurp (io/resource "404.html")))))
+    (route/not-found (slurp (io/resource "public/404.html")))))
 
 (def app
   "The actual ring handler that is run -- this is the routes above wrapped in various middlewares."
