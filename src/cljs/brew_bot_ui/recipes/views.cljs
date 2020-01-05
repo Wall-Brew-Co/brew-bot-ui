@@ -1,18 +1,10 @@
 (ns brew-bot-ui.recipes.views
   (:require [antizer.reagent :as ant]
-            [brew-bot.util :as util]
             [cljs.pprint :as pprint]
             [nnichols.palette :as palette]
+            [nnichols.util :as util]
             [reagent.core :as r]
             [re-frame.core :as rf]))
-
-(defn pluralize
-  "Naively pluralize `string` based on `amount`
-   TODO: extract this"
-  [amount string]
-  (if (< 1 amount)
-    (str string "s")
-    string))
 
 (defn ingredient-bill
   [title type ingredients]
@@ -22,7 +14,7 @@
          (for [ingredient (sort-by (comp - :weight) (vals ingredients))
                :let [display-name (:name ingredient)
                      weight       (:weight ingredient)
-                     weight-unit  (pluralize weight (if (= type :hops) "ounce" "pound"))]]
+                     weight-unit  (util/pluralize (if (= type :hops) "ounce" "pound") weight)]]
            ^{:key ingredient} [:li (str display-name ": " weight " " weight-unit)]))])
 
 (defn recipe-projections

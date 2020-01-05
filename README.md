@@ -3,7 +3,7 @@ The SPA/back-end for brew-bot
 
 ## Deployment
 
-TODO: Heroku config/setup, terraform setup, connect to remote terraform state, add make targets
+TODO: Heroku config/setup, terraform setup, connect to remote terraform state, add make targets, deploying the SPA
 
 ### Update the Version Number in `project.clj`
 

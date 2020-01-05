@@ -4,7 +4,7 @@
  :license {:name "Eclipse Public License v1.0"
            :url "http://www.eclipse.org/legal/epl-v10.html"}
  :dependencies [[antizer "0.3.1"]
-                [brew-bot "2.0.0-test"] ;; TODO - replace this with the real library version
+                [brew-bot "2.0.0"]
                 [cheshire "5.9.0"]
                 [cider/piggieback "0.4.2"]
                 [circleci/rollcage "1.0.203"]
@@ -21,7 +21,7 @@
                 [figwheel-sidecar "0.5.19"]
                 [honeysql "0.9.8"]
                 [nilenso/honeysql-postgres "0.2.6"]
-                [nnichols "0.5.0"]
+                [nnichols "0.6.0"]
                 [org.clojure/clojure "1.10.1"]
                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
                 [org.postgresql/postgresql "42.1.1"]
