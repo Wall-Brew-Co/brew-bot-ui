@@ -1,7 +1,7 @@
 (ns brew-bot-ui.http.server
   (:require [brew-bot-ui.config :as config]
             [brew-bot-ui.http.middleware :as middleware]
-            [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
+            [compojure.core :refer [defroutes routes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
             [clojure.tools.logging :as log]
