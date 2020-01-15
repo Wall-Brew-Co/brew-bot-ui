@@ -1,6 +1,7 @@
 (ns brew-bot-ui.http.server
   (:require [brew-bot-ui.config :as config]
             [brew-bot-ui.http.middleware :as middleware]
+            [brew-bot-ui.http.v1.recipes :as recipes]
             [compojure.core :refer [defroutes routes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -37,6 +38,7 @@
 
 (def app-routes
   (routes #'default-routes
+          #'recipes/routes
           (route/not-found (slurp (io/resource "public/404.html")))))
 
 (def app
