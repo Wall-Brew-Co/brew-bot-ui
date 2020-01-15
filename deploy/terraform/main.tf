@@ -23,7 +23,7 @@ variable "app_version" {
 
 # Provision the main Dyno
 resource "heroku_app" "server" {
-  name = "${var.app_name}"
+  name   = "${var.app_name}"
   region = "us"
 }
 
@@ -57,11 +57,11 @@ resource "heroku_addon" "monitor" {
 
 # Build code & release to the app
 resource "heroku_build" "server" {
-  app = "${heroku_app.server.name}"
+  app        = "${heroku_app.server.name}"
   buildpacks = ["https://github.com/heroku/heroku-buildpack-clojure.git"]
 
   source = {
-    url = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
+    url     = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
     version = "${var.app_version}"
   }
 }
