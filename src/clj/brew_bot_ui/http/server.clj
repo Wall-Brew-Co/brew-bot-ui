@@ -12,7 +12,7 @@
    :headers {"Content-Type" "text/plain"}
    :body "Hello from brew-bot!"})
 
-(defroutes app-routes
+(defroutes default-routes
   (GET "/" []
     (splash))
 
@@ -22,7 +22,7 @@
   (GET "/info" []
     {:status 200 :body (config/app-info)})
 
-  (PUT "/v1/log" [_ :as {:keys [body-params]}]
+  (PUT "/log" [_ :as {:keys [body-params]}]
     ((case (:level body-params)
         "fatal" #(log/fatal %)
         "error" #(log/error %)
@@ -33,11 +33,12 @@
         #(log/info %)) (-> body-params
                            (dissoc :level)
                            (assoc :version config/app-info)))
-    {:status 201})
+    {:status 201}))
 
-  (ANY "*" []
-    (route/not-found (slurp (io/resource "public/404.html")))))
+(def app-routes
+  (routes #'default-routes
+          (route/not-found (slurp (io/resource "public/404.html")))))
 
 (def app
-  "The actual ring handler that is run -- this is the routes above wrapped in various middlewares."
+  "The actual ring handler that is run."
   (middleware/wrap-base app-routes))
