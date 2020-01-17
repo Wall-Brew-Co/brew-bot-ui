@@ -21,7 +21,7 @@
                 [figwheel-sidecar "0.5.19"]
                 [honeysql "0.9.8"]
                 [nilenso/honeysql-postgres "0.2.6"]
-                [nnichols "0.6.0"]
+                [nnichols "0.7.0"]
                 [org.clojure/clojure "1.10.1"]
                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
                 [org.postgresql/postgresql "42.1.1"]
