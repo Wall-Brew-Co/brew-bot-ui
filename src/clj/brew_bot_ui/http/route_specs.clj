@@ -16,3 +16,7 @@
          :body (s/explain route-spec route-values)}
         (http/bodiless-json-response 400))
       (route-function conformed-values))))
+
+; For convenience, so we only have to include one ns
+(s/def ::int ::nspec/n-integer)
+(s/def ::uuid ::nspec/n-uuid)
