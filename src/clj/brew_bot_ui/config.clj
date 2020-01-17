@@ -36,20 +36,26 @@
 
 (def ^:const features
   {"dev"  {:route-logging true
+           :debug-routes? true
            :logger        :clojure
            :force-ssl?    false
            :force-json?   true}
    "test" {:route-logging false
+           :debug-routes? true
            :logger        :clojure
            :force-ssl?    true
            :force-json?   false}
    "prod" {:route-logging true
+           :debug-routes? false
            :logger        :rollbar
            :force-ssl?    true
            :force-json?   true}})
 
 (def log-routes?
   (get-in features [environment :route-logging]))
+
+(def debug-routes?
+  (get-in features [environment :debug-routes?]))
 
 (def logger
   (get-in features [environment :logger]))
