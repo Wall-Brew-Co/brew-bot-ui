@@ -8,13 +8,26 @@
             [nnichols.http :as nhttp]
             [ring.util.response :as resp]))
 
-(defn v1-recipe-id
+(defn get-v1-recipe-id
   [id]
   (if-let [recipe (core/get-recipe id)]
     (resp/response recipe)
-    {:status 404}))
+    (nhttp/bodiless-json-response 404)))
+
+(defn put-v1-recipe
+  [recipe]
+  (let [generator   (:generator recipe)
+        metadata    (:metadata recipe)
+        recipe-data (dissoc recipe :generator :metadata)]
+    (if-let [added-recipe (core/add-recipe recipe-data generator metadata)]
+      added-recipe
+      (nhttp/bodiless-json-response 500))))
 
 (defroutes routes
   (GET "/v1/recipes/:id"
     [id :<< as-uuid]
-    (rs/conform-route ::rs/uuid id v1-recipe-id)))
+    (rs/conform-route ::rs/uuid id get-v1-recipe-id))
+
+  (GET "/v1/recipes/recipe"
+    {:keys [body]}
+    (rs/conform-route ::rs/v1-recipe body put-v1-recipe)))
