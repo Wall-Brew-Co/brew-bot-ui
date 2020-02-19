@@ -1,4 +1,4 @@
-name: Clojure CI
+name: Clojure/ClojureScript CI
 
 on: [push]
 
@@ -11,8 +11,10 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install Clojure/ClojureScript dependencies
       run: lein deps
-    - name: Run clojure tests
-      run: lein test
+    - name: Install node.js dependencies
+      run: npm install
+    - name: Run all tests
+      run: lein test-build
       env:
         HEROKU_ENV: test
     - name: Secret Scan
