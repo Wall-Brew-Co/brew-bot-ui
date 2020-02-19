@@ -9,9 +9,9 @@
             [nnichols.http :as nhttp]))
 
 (defn splash []
-  {:status 200
+  {:status  200
    :headers {"Content-Type" "text/plain"}
-   :body "Hello from brew-bot!"})
+   :body    "Hello from brew-bot!"})
 
 (defroutes default-routes
   (GET "/" []
@@ -21,19 +21,20 @@
     (nhttp/bodiless-json-response 200))
 
   (GET "/info" []
-    {:status 200 :body (config/app-info)})
+    {:status 200
+     :body   (config/app-info)})
 
   (PUT "/log" [_ :as {:keys [body-params]}]
     ((case (:level body-params)
-        "fatal" #(log/fatal %)
-        "error" #(log/error %)
-        "warn"  #(log/warn %)
-        "info"  #(log/info %)
-        "debug" #(log/debug %)
-        "trace" #(log/trace %)
-        #(log/info %)) (-> body-params
-                           (dissoc :level)
-                           (assoc :version config/app-info)))
+       "fatal" #(log/fatal %)
+       "error" #(log/error %)
+       "warn"  #(log/warn %)
+       "info"  #(log/info %)
+       "debug" #(log/debug %)
+       "trace" #(log/trace %)
+       #(log/info %)) (-> body-params
+                          (dissoc :level)
+                          (assoc :version config/app-info)))
     {:status 201}))
 
 (def app-routes

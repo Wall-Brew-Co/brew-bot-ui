@@ -1,5 +1,7 @@
 (ns brew-bot-ui.http.route-specs
-  (:require [brew-bot-ui.config :as config]
+  (:require [brew-bot.spec :as brew]
+            [brew-bot-ui.config :as config]
+            [brew-bot-ui.common-specs :as common]
             [clojure.spec.alpha :as s]
             [nnichols.http :as http]
             [nnichols.spec :as nspec]))
@@ -20,3 +22,7 @@
 ; For convenience, so we only have to include one ns
 (s/def ::int ::nspec/n-integer)
 (s/def ::uuid ::nspec/n-uuid)
+
+(s/def ::v1-recipe
+  (s/keys :req-un [::brew/grains ::brew/hops ::brew/yeasts ::brew/gravity ::common/generator]
+          :opt-un [::common/metadata]))

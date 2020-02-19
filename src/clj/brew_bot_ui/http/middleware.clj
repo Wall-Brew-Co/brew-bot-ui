@@ -1,7 +1,6 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
             [brew-bot-ui.logging :as log]
-            [compojure.handler :as handler]
             [nnichols.http :as http]
             [ring.logger :as logger]
             [ring.middleware.defaults :as ring]
