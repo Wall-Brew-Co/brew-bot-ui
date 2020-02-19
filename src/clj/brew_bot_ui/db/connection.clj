@@ -12,6 +12,7 @@
    :jdbcUrl         config/jdbc-url})
 
 (def query-defaults
+  "Return maps representing db rows instead of namespace qualified maps"
   {:builder-fn r-set/as-unqualified-lower-maps})
 
 (defn execute!

@@ -1,13 +1,10 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
             [brew-bot-ui.logging :as log]
-            [compojure.handler :as handler]
             [nnichols.http :as http]
             [ring.logger :as logger]
-            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.defaults :as ring]
-            [ring.middleware.json :refer [wrap-json-response]]
-            [ring.middleware.x-headers :refer [wrap-xss-protection]]))
+            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]))
 
 (defn wrap-ignore-trailing-slash
   "Modifies the request uri before calling the handler.
@@ -43,12 +40,7 @@
         (wrapped-handler request)
         (handler request)))))
 
-(defn wrap-anti-forgery-check
-  "Block all requests with invalid CSRF protection tokens"
-  [handler]
-  (wrap-anti-forgery handler {:error-response (http/bodiless-json-response 500)}))
-
-(def ring-default-options
+(def default-ring-options
   "Update ring's default secure options to account for Heroku's balancers/test modes"
   (-> ring/secure-site-defaults
       (assoc :proxy true)
@@ -68,9 +60,8 @@
   [handler]
   (-> handler
       wrap-json-conformer
-      (wrap-xss-protection true {:mode :block})
-      wrap-anti-forgery-check
+      (wrap-json-body {:keywords? true})
       wrap-internal-error
-      (ring/wrap-defaults ring-default-options)
+      (ring/wrap-defaults default-ring-options)
       wrap-ignore-trailing-slash
       wrap-logging))

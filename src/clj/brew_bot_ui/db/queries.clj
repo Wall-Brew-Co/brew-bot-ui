@@ -31,7 +31,7 @@
         metadata-json (sql/call :jsonb (json/generate-string metadata))
         created-at    (time/now)
         recipe-id     (nu/uuid)
-        row [{:recipe_id      recipe-json
+        row [{:recipe_id      recipe-id
               :created_at     created-at
               :generator_type recipe-generator
               :recipe         recipe-json

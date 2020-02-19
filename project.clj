@@ -1,4 +1,4 @@
-(defproject brew-bot-ui "0.3.0"
+(defproject brew-bot-ui "0.4.0"
  :description "brew-bot, but in space!"
  :url "https://github.com/nnichols/brew-bot-ui"
  :license {:name "Eclipse Public License v1.0"
@@ -21,7 +21,7 @@
                 [figwheel-sidecar "0.5.19"]
                 [honeysql "0.9.8"]
                 [nilenso/honeysql-postgres "0.2.6"]
-                [nnichols "0.6.0"]
+                [nnichols "0.7.0"]
                 [org.clojure/clojure "1.10.1"]
                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
                 [org.postgresql/postgresql "42.1.1"]
@@ -41,8 +41,8 @@
            [lein-figwheel "0.5.19"]
            [lein-ring "0.12.5"]]
 
- :source-paths ["src/clj"]
- :test-paths ["test/clj" "test/cljs"]
+ :source-paths ["src/clj" "src/cljc"]
+ :test-paths ["test/clj" "test/cljc" "test/cljs"]
  :target-path "target/%s"
  :clean-targets ^{:protect false} ["resources/public/js/compiled" "resources/test" "target"]
  :min-lein-version "2.5.3"
@@ -68,12 +68,15 @@
                                                           "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
 
  :ring {:handler brew-bot-ui.server/app}
+ 
  :aliases {"prod-build" ["do" "clean" ["cljsbuild" "once" "prod"]]
            "dev-build"  ["do" "clean" ["cljsbuild" "once" "dev"] "figwheel"]
            "test-build" ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
+ 
  :profiles {:production {:env {:production true}}
             :repl {:main brew-bot-ui.core}
-            :dev {:dependencies [[doo "0.1.11"]
+            :dev {:dependencies [[circleci/bond "0.3.0"]
+                                 [doo "0.1.11"]
                                  [javax.servlet/servlet-api "2.5"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[lein-doo "0.1.10"]]}}

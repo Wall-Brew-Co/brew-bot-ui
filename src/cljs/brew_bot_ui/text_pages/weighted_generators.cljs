@@ -1,7 +1,6 @@
 (ns brew-bot-ui.text-pages.weighted-generators
   "Static text about the weighted recipe generators"
-  (:require [brew-bot-ui.visual-identity.colors :as colors]
-            [brew-bot-ui.visual-identity.components :as comps]))
+  (:require [brew-bot-ui.visual-identity.components :as comps]))
 
 (defn weighted-generators
   []

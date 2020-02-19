@@ -1,7 +1,6 @@
 (ns brew-bot-ui.text-pages.random-generators
   "Static text about the random recipe generators"
-  (:require [brew-bot-ui.visual-identity.colors :as colors]
-            [brew-bot-ui.visual-identity.components :as comps]))
+  (:require [brew-bot-ui.visual-identity.components :as comps]))
 
 (defn random-generators
   []
