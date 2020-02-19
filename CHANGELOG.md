@@ -1,3 +1,9 @@
+## v0.4.1 / 2020 Feb 19
+
+> This release fixes a bug in the default Heroku procfile
+
+* **Fix** ^^^
+
 ## v0.4.0 / 2020 Feb 19
 
 > This release adds a route to write recipes to the db, and updates use of spec between client/server
