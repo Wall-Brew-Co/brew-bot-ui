@@ -51,6 +51,12 @@ resource "heroku_addon" "monitor" {
   plan = "rollbar:free"
 }
 
+# Librato Metrics
+resource "heroku_addon" "metrics" {
+  app  = "${heroku_app.server.name}"
+  plan = "librato:development"
+}
+
 #
 # Build Plan
 #
