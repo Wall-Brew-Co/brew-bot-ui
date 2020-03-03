@@ -3,6 +3,7 @@
   (:require [brew-bot-ui.config :as conf]
             [brew-bot-ui.layout :as layout]
             [brew-bot-ui.routes :as routes]
+            [day8.re-frame.http-fx]
             [district0x.re-frame.google-analytics-fx]
             [reagent.core :as r]
             [re-frame.core :as rf]
