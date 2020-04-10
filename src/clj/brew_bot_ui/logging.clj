@@ -2,6 +2,7 @@
   "Interface for environment-specific logging"
   (:require [brew-bot-ui.config :as config]
             [circleci.rollcage.core :as rollcage]
+            [clj-time.core :as time]
             [clojure.tools.logging :as log]))
 
 (def roller
@@ -10,7 +11,8 @@
 (defn decorate-log
   "Add default information to every log"
   [message]
-  (str "Application: " (:app (config/app-info)) " "
+  (str "Time: " (time/now) " "
+       "Application: " (:app (config/app-info)) " "
        "Version: " (:version (config/app-info)) " "
        message))
 
