@@ -1,3 +1,9 @@
+## v0.5.2 / 2020 Apr 11
+
+> This release fixes CSRF eventing
+
+* **Fix** ^^^
+
 ## v0.5.1 / 2020 Apr 11
 
 > This release fixes CSRF middleware
