@@ -6,4 +6,5 @@
 
 (def ^:const json-request-response
   {:format          (ajax/json-request-format)
-   :response-format (ajax/json-response-format {:keywords? true})})
+   :response-format (ajax/json-response-format {:keywords? true})
+   :headers         {"X-CSRF-Token" js/csrfToken}})
