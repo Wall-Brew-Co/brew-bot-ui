@@ -17,5 +17,3 @@ jobs:
       run: lein test-build
       env:
         HEROKU_ENV: test
-    - name: Secret Scan
-      uses: max/secret-scan@1.0.0

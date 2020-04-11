@@ -1,3 +1,9 @@
+## v0.5.0 / 2020 Apr 11
+
+> This release adds a logging endpoint and serves the SPA from the server
+
+* **Add** ^^^
+
 ## v0.4.1 / 2020 Feb 19
 
 > This release fixes a bug in the default Heroku procfile

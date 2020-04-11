@@ -4,7 +4,6 @@
 (def config
   "Client-side configuration map."
   {:prod {:features {:google-analytics true}}
-
    :dev {:features {:google-analytics false}}})
 
 (def config-by-domain
