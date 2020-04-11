@@ -8,8 +8,7 @@
 (deftest test-routes
   (testing "Main route"
     (let [response (help/local-api-test :get "/")]
-      (is (= (:status response) 200))
-      (is (= (:body response) "Hello from brew-bot!"))))
+      (is (= (:status response) 200))))
 
   (testing "App info route"
     (let [response (help/local-api-test :get "/info")]
