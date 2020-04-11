@@ -29,8 +29,11 @@
   <div id="app">
     <h2>Welcome to brew-bot!</h2>
   </div>
-
-  <script src="js/compiled/app.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var context = "{{servlet-context}}";
+    var csrfToken = "{{csrf-token}}";
+  </script>
+  <script src="js/compiled/app.js?v={{fingerprint}}" type="text/javascript"></script>
   <script>
     window.onload = function() {
       brew_bot_ui.main.init();
