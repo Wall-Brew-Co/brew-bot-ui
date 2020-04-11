@@ -3,10 +3,10 @@
             [brew-bot-ui.http.layout :as layout]
             [brew-bot-ui.http.middleware :as middleware]
             [brew-bot-ui.http.v1.recipes :as recipes]
+            [brew-bot-ui.logging :as log]
             [compojure.core :refer [defroutes routes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
             [clojure.java.io :as io]
-            [clojure.tools.logging :as log]
             [nnichols.http :as nhttp]))
 
 (defroutes default-routes
@@ -22,12 +22,10 @@
 
   (PUT "/log" [_ :as {:keys [body-params]}]
     ((case (:level body-params)
-       "fatal" #(log/fatal %)
-       "error" #(log/error %)
-       "warn"  #(log/warn %)
-       "info"  #(log/info %)
-       "debug" #(log/debug %)
-       "trace" #(log/trace %)
+       "fatal" #(log/fatal! %)
+       "error" #(log/error! %)
+       "warn"  #(log/warn! %)
+       "info"  #(log/info! %)
        #(log/info %))
      (assoc body-params :version config/app-info))
     {:status 201}))
