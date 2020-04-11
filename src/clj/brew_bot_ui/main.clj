@@ -7,5 +7,5 @@
   (:gen-class))
 
 (defn -main
-  [& args]
+  [& _args]
   (log/with-error-handling (jetty/run-jetty (site #'server/app) {:port config/port :join? false})))

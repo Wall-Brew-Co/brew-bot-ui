@@ -4,7 +4,8 @@
             [nnichols.http :as http]
             [ring.logger :as logger]
             [ring.middleware.defaults :as ring]
-            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]))
+            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            [ring.util.response :as resp]))
 
 (defn wrap-ignore-trailing-slash
   "Modifies the request uri before calling the handler.
@@ -54,6 +55,14 @@
       (if config/force-json?
         (wrapped-handler request)
         (handler request)))))
+
+(defn wrap-no-cache
+  "Takes a Ring response and returns the response with additional headers that instruct the client not to cache the response."
+  [resp]
+  (-> resp
+      (resp/header "Cache-Control" "no-store, must-revalidate")
+      (resp/header "Pragma" "no-cache")
+      (resp/header "Expires" "0")))
 
 (defn wrap-base
   "The specialty handlers invoked for every HTTP(S) call"

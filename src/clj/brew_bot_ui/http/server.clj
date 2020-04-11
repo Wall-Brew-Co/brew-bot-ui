@@ -1,5 +1,6 @@
 (ns brew-bot-ui.http.server
   (:require [brew-bot-ui.config :as config]
+            [brew-bot-ui.http.layout :as layout]
             [brew-bot-ui.http.middleware :as middleware]
             [brew-bot-ui.http.v1.recipes :as recipes]
             [compojure.core :refer [defroutes routes GET PUT POST DELETE ANY]]
@@ -8,14 +9,9 @@
             [clojure.tools.logging :as log]
             [nnichols.http :as nhttp]))
 
-(defn splash []
-  {:status  200
-   :headers {"Content-Type" "text/plain"}
-   :body    "Hello from brew-bot!"})
-
 (defroutes default-routes
   (GET "/" []
-    (splash))
+    (middleware/wrap-no-cache (layout/render "index.html")))
 
   (GET "/heartbeat" []
     (nhttp/bodiless-json-response 200))
@@ -32,9 +28,8 @@
        "info"  #(log/info %)
        "debug" #(log/debug %)
        "trace" #(log/trace %)
-       #(log/info %)) (-> body-params
-                          (dissoc :level)
-                          (assoc :version config/app-info)))
+       #(log/info %))
+     (assoc body-params :version config/app-info))
     {:status 201}))
 
 (def app-routes

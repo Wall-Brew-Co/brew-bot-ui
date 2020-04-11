@@ -29,7 +29,7 @@
    (let [source (:current-recipe db)
          recipe (generators/generate-beer-recipe generator-type (:gallons source) (:grains source) (:extracts source) (:hops source) (:yeasts source))]
      {:db (assoc db :generated-recipe recipe)
-      :dispatch-n [[:send-log {:test "me"}] [:update-current-page :recipe-preview]]})))
+      :dispatch-n [[:send-log {:level "info" :recipe recipe}] [:update-current-page :recipe-preview]]})))
 
 (rf/reg-event-db
  :toggle-section-display

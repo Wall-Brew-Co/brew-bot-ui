@@ -20,6 +20,8 @@
                 [district0x.re-frame/google-analytics-fx "1.0.0"]
                 [figwheel-sidecar "0.5.19"]
                 [honeysql "0.9.8"]
+                [markdown-clj "1.10.0"]
+                [metosin/ring-http-response "0.9.1"]
                 [nilenso/honeysql-postgres "0.2.6"]
                 [nnichols "0.7.0"]
                 [org.clojure/clojure "1.10.1"]
@@ -30,10 +32,12 @@
                 [reagent "0.8.1"]
                 [reagent-utils "0.3.3"]
                 [ring-logger "1.0.1"]
+                [ring/ring-core "1.8.0"]
                 [ring/ring-jetty-adapter "1.8.0"]
                 [ring/ring-json "0.5.0"]
                 [ring/ring-defaults "0.3.2"]
                 [seancorfield/next.jdbc "1.0.13"]
+                [selmer "1.12.18"]
                 [trptcolin/versioneer "0.2.0"]]
 
  :plugins [[com.jakemccrary/lein-test-refresh "0.19.0"]
@@ -74,6 +78,21 @@
            "test-build" ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
  
  :profiles {:production {:env {:production true}}
+            :uberjar {:omit-source  true
+                      :prep-tasks   ["compile" ["cljsbuild" "once" "prod"]]
+                      :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]
+                      :cljsbuild    {:builds
+                                     {:min
+                                      {:source-paths ["src/cljc" "src/cljs" "env/uberjar/cljs"]
+                                       :compiler
+                                       {:output-dir     "target/cljsbuild/public/js"
+                                        :output-to      "target/cljsbuild/public/js/app.js"
+                                        :source-map     "target/cljsbuild/public/js/app.js.map"
+                                        :optimizations  :advanced
+                                        :parallel-build true
+                                        :pretty-print   false}}}}
+                      :aot          :all
+                      :source-paths ["env/uberjar/clj"]}
             :repl {:main brew-bot-ui.core}
             :dev {:dependencies [[circleci/bond "0.3.0"]
                                  [doo "0.1.11"]
