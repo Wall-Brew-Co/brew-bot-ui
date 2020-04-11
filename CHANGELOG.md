@@ -1,3 +1,9 @@
+## v0.5.1 / 2020 Apr 11
+
+> This release fixes CSRF middleware
+
+* **Fix** ^^^
+
 ## v0.5.0 / 2020 Apr 11
 
 > This release adds a logging endpoint and serves the SPA from the server
