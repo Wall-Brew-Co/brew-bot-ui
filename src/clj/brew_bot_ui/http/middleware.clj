@@ -75,6 +75,5 @@
       wrap-internal-error
       (ring/wrap-defaults default-ring-options)
       wrap-ignore-trailing-slash
-      wrap-anti-forgery
       wrap-session
       wrap-logging))
