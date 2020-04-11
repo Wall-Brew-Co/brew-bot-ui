@@ -1,3 +1,9 @@
+## v0.5.3 / 2020 Apr 11
+
+> This release fixes the CSRF embed
+
+* **Fix** ^^^
+
 ## v0.5.2 / 2020 Apr 11
 
 > This release fixes CSRF eventing
