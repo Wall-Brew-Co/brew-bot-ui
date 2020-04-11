@@ -3,8 +3,10 @@
             [brew-bot-ui.logging :as log]
             [nnichols.http :as http]
             [ring.logger :as logger]
+            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.defaults :as ring]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            [ring.middleware.session :refer [wrap-session]]
             [ring.util.response :as resp]))
 
 (defn wrap-ignore-trailing-slash
@@ -73,4 +75,6 @@
       wrap-internal-error
       (ring/wrap-defaults default-ring-options)
       wrap-ignore-trailing-slash
+      wrap-anti-forgery
+      wrap-session
       wrap-logging))
