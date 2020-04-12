@@ -22,10 +22,10 @@
 
   (PUT "/log" [_ :as {:keys [body-params]}]
     ((case (:level body-params)
-       "fatal" #(log/fatal! %)
-       "error" #(log/error! %)
-       "warn"  #(log/warn! %)
-       "info"  #(log/info! %)
+       "fatal" #(log/fatal %)
+       "error" #(log/error %)
+       "warn"  #(log/warn %)
+       "info"  #(log/info %)
        #(log/info %))
      (assoc body-params :version config/app-info))
     {:status 201}))
