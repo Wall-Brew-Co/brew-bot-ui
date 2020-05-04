@@ -21,14 +21,14 @@
      :body   (config/app-info)})
 
   (PUT "/log" [_ :as {:keys [body-params]}]
-    ((case (:level body-params)
-       "fatal" #(log/fatal %)
-       "error" #(log/error %)
-       "warn"  #(log/warn %)
-       "info"  #(log/info %)
-       #(log/info %))
-     (assoc body-params :version config/app-info))
-    {:status 201}))
+    (let [logging-fn (case (:level body-params)
+                       "fatal" log/fatal
+                       "error" log/error
+                       "warn"  log/warn
+                       "info"  log/info
+                       log/info)]
+      (logging-fn (assoc body-params :version config/app-info))
+      {:status 201})))
 
 (def app-routes
   (routes #'default-routes
