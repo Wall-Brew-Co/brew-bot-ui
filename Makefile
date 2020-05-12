@@ -5,7 +5,9 @@ LEIN = lein
 # These are the locations of the directories we'll use
 TARGET_DIR = target
 VERCHG = bin/verchg
+TERRAFORM_DIR = deploy/terraform
 VER = `sed -n -e "s/^.*defproject .* \"\(.*\)\"/\1/p" project.clj;`
+
 #
 # These are the main targets that we'll be making
 #
@@ -37,3 +39,11 @@ version/bugfix:
 version:
 	$(info Adding CHANGELOG entry for existing version...)
 	@ $(VERCHG) 'push'
+
+plan/prod:
+	$(info Creating Terraform Plan...)
+	@ $(MAKE) -C $(TERRAFORM_DIR) plan/prod
+
+deploy/prod:
+	$(info Deploying brew-bot-ui to Production...)
+	@ $(MAKE) -C $(TERRAFORM_DIR) apply/prod
