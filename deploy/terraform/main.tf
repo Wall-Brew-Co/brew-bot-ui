@@ -8,15 +8,6 @@ terraform {
   }
 }
 
-# Terraform variables
-variable "app_name" {
-  description = "Name of the Heroku application"
-}
-
-variable "app_version" {
-  description = "Current, tagged version of the application"
-}
-
 #
 # Resources to provision
 #

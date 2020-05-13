@@ -56,10 +56,17 @@ function pull_values {
 }
 
 #
-# Update the project.clj file with the new version by a simple exchange.
+# Update project.clj
 #
 function update_code {
-  sed -e "1s/${version}/${new_version}/" ${proj} > p.tmp && mv p.tmp ${proj}
+  sed -e "1s/${version}/${new_version}/" ${proj} > project.tmp && mv project.tmp ${proj}
+}
+
+#
+# Update the Terraform variables
+#
+function update_deployment {
+  sed -e "s/${version}/${new_version}/" ${deploy} > deploy.tmp && mv deploy.tmp ${deploy}
 }
 
 #
@@ -75,10 +82,12 @@ function update_docs {
 proj="project.clj"
 log="CHANGELOG.md"
 style="doc/templates/changelog_entry.txt"
+deploy="deploy/terraform/variables.tf"
 
 pull_values
 bump $1 ${version}
 update_code
+update_deployment
 update_docs
 # TODO: Inc deployment # in terraform scripts, package.json, and package-lock.json
 echo "brew-bot-ui is now at $new_version"
