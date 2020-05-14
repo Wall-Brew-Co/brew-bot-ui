@@ -1,8 +1,8 @@
 (ns brew-bot-ui.request
-  (:require [ajax.core :as ajax]))
+  (:require [ajax.core :as ajax]
+            [brew-bot-ui.config :as config]))
 
-(def ^:const remote-url
-  "https://brew-bot-server.herokuapp.com")
+(def remote-url config/remote-url)
 
 (def ^:const json-request-response
   {:format          (ajax/json-request-format)
