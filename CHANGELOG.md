@@ -1,3 +1,9 @@
+## v0.7.0 / 2020 May 15
+
+> This release adds a deployment webhook
+
+* **Add** ^^^
+
 ## v0.6.0 / 2020 May 14
 
 > This release adds improvements to keep the app alive and report issues
