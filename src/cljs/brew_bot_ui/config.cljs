@@ -3,13 +3,21 @@
 
 (def config
   "Client-side configuration map."
-  {:prod {:features {:google-analytics true}}
-   :dev {:features {:google-analytics false}}})
+  {:gh-prod {:remote-url nil                      ;; TODO kill this deployment
+             :features {:google-analytics true}}
+   :wb-prod {:remote-url "https://brewbot.wallbrew.com"
+             :features {:google-analytics false}} ;; TODO submit correct GA id based on context
+   :hk-prod {:remote-url "https://brew-bot-server.herokuapp.com"
+             :features {:google-analytics false}}
+   :dev     {:remote-url "http://localhost:8000"
+             :features {:google-analytics false}}})
 
 (def config-by-domain
   "Map from domains to config key paths."
   (array-map
-    "github.io" [:prod]
+    "github.io" [:gh-prod]
+    "wallbrew"  [:wb-prod]
+    "heroku"    [:hk-prod]
     "localhost" [:dev]))
 
 (defn get-domain-by-location
@@ -30,3 +38,6 @@
 
 (def google-analytics-on?
   (get-config [:features :google-analytics]))
+
+(def remote-url
+  (get-config [:remote-url]))

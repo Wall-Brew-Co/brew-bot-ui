@@ -14,7 +14,7 @@
   (str "Time: " (time/now) " "
        "Application: " (:app (config/app-info)) " "
        "Version: " (:version (config/app-info)) " "
-       message))
+       "Message: " message))
 
 (defn info!
   [message]
@@ -59,7 +59,7 @@
     (func)
     (catch Throwable t
       (.println System/err (decorate-log t))
-      (error (decorate-log t))
+      (error t)
       (throw t))))
 
 (defmacro with-error-handling

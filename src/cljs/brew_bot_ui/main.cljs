@@ -1,6 +1,6 @@
 (ns brew-bot-ui.main
   "Application launcher for the web UI"
-  (:require [brew-bot-ui.config :as conf]
+  (:require [brew-bot-ui.config :as config]
             [brew-bot-ui.layout :as layout]
             [brew-bot-ui.routes :as routes]
             [day8.re-frame.http-fx]
@@ -28,6 +28,6 @@
   "Initialize the app db, and mount the application.
   Exported to preserve fn name through advanced compilation name munging"
   []
-  (district0x.re-frame.google-analytics-fx/set-enabled! conf/google-analytics-on?)
+  (district0x.re-frame.google-analytics-fx/set-enabled! config/google-analytics-on?)
   (rf/dispatch [:initialize-db])
   (mount-root))

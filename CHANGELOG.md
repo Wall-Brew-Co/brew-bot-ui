@@ -1,3 +1,9 @@
+## v0.6.0 / 2020 May 14
+
+> This release adds improvements to keep the app alive and report issues
+
+* **Add** ^^^^
+
 ## v0.5.4 / 2020 Apr 11
 
 > This release fixes a duplicate middlewaree layer

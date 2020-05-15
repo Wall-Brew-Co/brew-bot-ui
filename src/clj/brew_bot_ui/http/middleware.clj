@@ -3,7 +3,6 @@
             [brew-bot-ui.logging :as log]
             [nnichols.http :as http]
             [ring.logger :as logger]
-            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.defaults :as ring]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
