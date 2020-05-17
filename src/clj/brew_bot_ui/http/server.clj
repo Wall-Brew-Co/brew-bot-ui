@@ -1,6 +1,6 @@
 (ns brew-bot-ui.http.server
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.http.layout :as layout]
+            [brew-bot-ui.http.html :as html]
             [brew-bot-ui.http.middleware :as middleware]
             [brew-bot-ui.http.v1.recipes :as recipes]
             [brew-bot-ui.logging :as log]
@@ -11,7 +11,10 @@
 
 (defroutes default-routes
   (GET "/" []
-    (middleware/wrap-no-cache (layout/render "index.html")))
+    (middleware/wrap-no-cache (html/index)))
+  
+    (GET "/example" []
+      (middleware/wrap-no-cache (html/example)))
 
   (GET "/heartbeat" []
     (nhttp/bodiless-json-response 200))

@@ -1,4 +1,4 @@
-(ns brew-bot-ui.http.layout
+(ns brew-bot-ui.http.html
   (:require [selmer.parser :as parser]
             [selmer.filters :as filters]
             [markdown.core :as md]
@@ -31,3 +31,7 @@
             :csrf-token      *anti-forgery-token*
             :servlet-context *app-context*)))
    "text/html; charset=utf-8"))
+
+(defn index [] (render "index.html"))
+
+(defn example [] (render "exmaple.html" {:title "Wall Brew"}))
