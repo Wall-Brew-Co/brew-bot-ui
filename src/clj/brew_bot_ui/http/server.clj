@@ -13,7 +13,7 @@
   (GET "/" []
     (middleware/wrap-no-cache (html/index)))
   
-    (GET "/example" []
+    #_(GET "/example" []
       (middleware/wrap-no-cache (html/example)))
 
   (GET "/heartbeat" []

@@ -34,4 +34,4 @@
 
 (defn index [] (render "index.html"))
 
-(defn example [] (render "exmaple.html" {:title "Wall Brew"}))
+#_(defn example [] (render "example.html" {:title "Wall Brew"}))
