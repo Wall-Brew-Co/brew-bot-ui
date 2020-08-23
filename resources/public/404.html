@@ -31,7 +31,8 @@
     <a href="javascript:void(0)" onclick="closeNavMenu()" class="button hideMenuButton" style="width: 100%;
                                                                                                  position: absolute;
                                                                                                  left: 0;
-                                                                                                 top: 0;">Close Menu</a>
+                                                                                                 top: 0;">Close
+      Menu</a>
     <div class="container" style="padding-top:16px;
                                     padding-bottom:20px;
                                     font-size:12px;">
@@ -57,7 +58,10 @@
           <title>Search</title>
           <use xlink:href="#icon-search"></use>
         </svg>
-        <input type="submit" class="search-submit screen-reader-text" value="Search">
+        <label>
+          <span class="screen-reader-text">Search for...</span>
+          <input type="submit" class="search-submit screen-reader-text" value="Search" label="Search">
+        </label>
       </form>
     </div>
   </nav>

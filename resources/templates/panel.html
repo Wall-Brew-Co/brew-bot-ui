@@ -23,45 +23,48 @@
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
     ga("create", "{{google-analytics}}", "auto");
   </script>
-  </head>
+</head>
 
-  <body style="background: #2D343A;
+<body style="background: #2D343A;
                margin: 0;">
-    <nav class="sidenav collapse top" id="navigationBar"><br>
-      <a href="javascript:void(0)" onclick="closeNavMenu()" class="button hideMenuButton" style="width: 100%;
+  <nav class="sidenav collapse top" id="navigationBar"><br>
+    <a href="javascript:void(0)" onclick="closeNavMenu()" class="button hideMenuButton" style="width: 100%;
                                                                                                    position: absolute;
                                                                                                    left: 0;
                                                                                                    top: 0;">Close
-        Menu</a>
-      <div class="container" style="padding-top:16px;
+      Menu</a>
+    <div class="container" style="padding-top:16px;
                                       padding-bottom:20px;
                                       font-size:12px;">
 
-        <a href="https://wallbrew.com/">
-          <img src="/img/wall-brew-logo.png" alt="The Wall Brew Logo" class="sideNavLogo">
-        </a>
-        <p class="site-description">Guarding the Wall between Noble Square and Wicker Park since 2019</p>
-      </div>
-      <div>
-        <a href="https://wallbrew.wordpress.com/" onclick="closeNavMenu()" class="sideNavLink">Home</a>
-        <a href="https://wallbrew.com/blog-feed/" onclick="closeNavMenu()" class="sideNavLink">Blog Feed</a>
-        <a href="https://wallbrew.com/category/breweries/" onclick="closeNavMenu()" class="sideNavLink">Breweries</a>
-        <a href="https://wallbrew.com/category/recipes/" onclick="closeNavMenu()" class="sideNavLink">Recipes</a>
-        <a href="https://wallbrew.com/category/reviews/" onclick="closeNavMenu()" class="sideNavLink">Reviews</a>
-        <a href="https://wallbrew.com/category/interviews/" onclick="closeNavMenu()" class="sideNavLink">Interviews</a>
-        <form role="search" method="get" class="search-form" action="https://wallbrew.com/">
-          <label>
-            <span class="screen-reader-text">Search for:</span>
-            <input type="search" class="search-field" placeholder="Search …" value="" name="s">
-          </label>
-          <svg class="icon icon-search" aria-labelledby="title">
-            <title>Search</title>
-            <use xlink:href="#icon-search"></use>
-          </svg>
-          <input type="submit" class="search-submit screen-reader-text" value="Search">
-        </form>
-      </div>
-    </nav>
+      <a href="https://wallbrew.com/">
+        <img src="/img/wall-brew-logo.png" alt="The Wall Brew Logo" class="sideNavLogo">
+      </a>
+      <p class="site-description">Guarding the Wall between Noble Square and Wicker Park since 2019</p>
+    </div>
+    <div>
+      <a href="https://wallbrew.wordpress.com/" onclick="closeNavMenu()" class="sideNavLink">Home</a>
+      <a href="https://wallbrew.com/blog-feed/" onclick="closeNavMenu()" class="sideNavLink">Blog Feed</a>
+      <a href="https://wallbrew.com/category/breweries/" onclick="closeNavMenu()" class="sideNavLink">Breweries</a>
+      <a href="https://wallbrew.com/category/recipes/" onclick="closeNavMenu()" class="sideNavLink">Recipes</a>
+      <a href="https://wallbrew.com/category/reviews/" onclick="closeNavMenu()" class="sideNavLink">Reviews</a>
+      <a href="https://wallbrew.com/category/interviews/" onclick="closeNavMenu()" class="sideNavLink">Interviews</a>
+      <form role="search" method="get" class="search-form" action="https://wallbrew.com/">
+        <label>
+          <span class="screen-reader-text">Search for:</span>
+          <input type="search" class="search-field" placeholder="Search …" value="" name="s">
+        </label>
+        <svg class="icon icon-search" aria-labelledby="title">
+          <title>Search</title>
+          <use xlink:href="#icon-search"></use>
+        </svg>
+        <label>
+          <span class="screen-reader-text">Search for...</span>
+          <input type="submit" class="search-submit screen-reader-text" value="Search" label="Search">
+        </label>
+      </form>
+    </div>
+  </nav>
 
   <!-- Top menu on small screens -->
   <header class="container top hideMenuButton">
