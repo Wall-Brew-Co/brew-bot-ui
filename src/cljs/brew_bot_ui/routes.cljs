@@ -1,6 +1,7 @@
 (ns brew-bot-ui.routes
   "Inner-app navigation"
   (:require [secretary.core :as secretary :refer-macros [defroute]]
+            [brew-bot-ui.config :as config]
             [brew-bot-ui.events]
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
@@ -18,8 +19,8 @@
  (fn [{:keys [db]} [_ route]]
    (let [evts (secretary/dispatch! route)
          _ (println (str "naviagted to " route))]
-     {:dispatch-n   evts
-      :ga/page-view [route]})))
+     (merge {:dispatch-n evts}
+      (when-not config/google-analytics-on?{:ga/page-view [route]})))))
 
 (rf/reg-event-fx
   ;when updating db and navigating from a single event, it is important to use the :navigate event,

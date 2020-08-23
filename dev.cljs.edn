@@ -1,0 +1,13 @@
+^{:ring-handler brew-bot-ui.figwheel/handler
+  :pre-build-hooks [brew-bot-ui.figwheel/init]
+  ;cant refer to variables here, so make sure these match config/jetty
+  :ring-server-options {:request-header-size 65536}
+  :css-dirs ["resources/public/css"]
+  :watch-dirs ["src/cljs" "src/cljc" "env/local/cljs"]}
+{:main brew-bot-ui.app
+ :preloads [day8.re-frame-10x.preload]
+ :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true
+                   "day8.re_frame.tracing.trace_enabled_QMARK_" true}
+ :output-dir     "target/cljsbuild/public/js"
+ :output-to      "target/cljsbuild/public/js/app.js"
+ :source-map     true}

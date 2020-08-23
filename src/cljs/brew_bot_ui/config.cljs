@@ -3,9 +3,7 @@
 
 (def config
   "Client-side configuration map."
-  {:gh-prod {:remote-url nil                      ;; TODO kill this deployment
-             :features {:google-analytics true}}
-   :wb-prod {:remote-url "https://brewbot.wallbrew.com"
+  {:wb-prod {:remote-url "https://brewbot.wallbrew.com"
              :features {:google-analytics false}} ;; TODO submit correct GA id based on context
    :hk-prod {:remote-url "https://brew-bot-server.herokuapp.com"
              :features {:google-analytics false}}
@@ -15,7 +13,6 @@
 (def config-by-domain
   "Map from domains to config key paths."
   (array-map
-    "github.io" [:gh-prod]
     "wallbrew"  [:wb-prod]
     "heroku"    [:hk-prod]
     "localhost" [:dev]))
