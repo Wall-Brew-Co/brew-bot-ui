@@ -48,6 +48,12 @@ resource "heroku_addon" "metrics" {
   plan = "librato:development"
 }
 
+# Deployment Webhook
+resource "heroku_addon" "webhook" {
+  app  = heroku_app.server.name
+  plan = "deployhooks:http"
+}
+
 #
 # Build Plan
 #

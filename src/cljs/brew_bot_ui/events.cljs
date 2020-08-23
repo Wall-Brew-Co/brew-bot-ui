@@ -41,6 +41,7 @@
 (rf/reg-event-db
  :get-version-succeeded
  (fn [db [_ {:keys [version]}]]
+   (println version)
    (assoc db :version version)))
 
 (rf/reg-event-fx

@@ -8,5 +8,5 @@ variable "app_name" {
 variable "app_version" {
   type = string
   description = "Current, tagged version of the application"
-  default = "v0.6.0"
+  default = "v0.8.1"
 }

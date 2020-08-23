@@ -4,7 +4,6 @@
 *.jar
 ._*
 .cpcache/
-/env
 .hg/
 .hgignore
 .lein-deps-sum

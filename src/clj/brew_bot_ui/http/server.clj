@@ -36,7 +36,7 @@
 (def app-routes
   (routes #'default-routes
           #'recipes/routes
-          (route/not-found (slurp (io/resource "public/404.html")))))
+          (route/not-found (layout/render "404.html"))))
 
 (def app
   "The actual ring handler that is run."

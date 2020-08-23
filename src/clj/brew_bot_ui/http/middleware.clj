@@ -1,11 +1,17 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
+            [brew-bot-ui.http.layout :as layout]
             [brew-bot-ui.logging :as log]
             [nnichols.http :as http]
+            [jumblerg.middleware.cors :refer [wrap-cors]]
             [ring.logger :as logger]
+            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.defaults :as ring]
+            [ring.middleware.gzip :as gzip]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.ssl :as ring-ssl]
+            [ring-ttl-session.core :refer [ttl-memory-store]]
             [ring.util.response :as resp]))
 
 (defn wrap-ignore-trailing-slash
@@ -42,11 +48,27 @@
         (wrapped-handler request)
         (handler request)))))
 
+(defn wrap-csrf [handler]
+  (wrap-anti-forgery
+   handler
+   {:error-response
+    (layout/render "403.html")}))
+
 (def default-ring-options
   "Update ring's default secure options to account for Heroku's balancers/test modes"
   (-> ring/secure-site-defaults
       (assoc :proxy true)
+      (assoc-in [:security :anti-forgery] false) ;; This is handled elsewhere
+      (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
       (assoc-in [:security :ssl-redirect] config/force-ssl?)))
+
+(defn wrap-ssl-redirect
+  [handler]
+  (if config/force-ssl?
+    (-> handler
+        (ring-ssl/wrap-ssl-redirect {:ssl-port 443})
+        ring-ssl/wrap-forwarded-scheme)
+    handler))
 
 (defn wrap-json-conformer
   "Don't conform return values to JSON when testing for easier assertions"
@@ -69,10 +91,14 @@
   "The specialty handlers invoked for every HTTP(S) call"
   [handler]
   (-> handler
-      wrap-json-conformer
-      (wrap-json-body {:keywords? true})
+      (wrap-cors #".*localhost.*" #".*wallbrew.*" #".*herokuapp.*")
       wrap-internal-error
       (ring/wrap-defaults default-ring-options)
+      wrap-ssl-redirect
       wrap-ignore-trailing-slash
+      wrap-csrf
       wrap-session
-      wrap-logging))
+      wrap-logging
+      wrap-json-conformer
+      (wrap-json-body {:keywords? true})
+      gzip/wrap-gzip))
