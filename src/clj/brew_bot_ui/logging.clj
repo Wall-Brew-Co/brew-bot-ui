@@ -63,3 +63,8 @@
 (defmacro with-error-handling
   [& body]
   `(wrap-app-error-handling (fn [] ~@body)))
+
+(defn init-fallback-logger
+  "Start the rollcage fallback exception handler"
+  []
+  (rollcage/setup-uncaught-exception-handler roller))

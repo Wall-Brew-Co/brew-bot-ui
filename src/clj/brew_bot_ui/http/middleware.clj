@@ -85,11 +85,19 @@
       (resp/header "Pragma" "no-cache")
       (resp/header "Expires" "0")))
 
+(defn wrap-allowable-origins
+  "If we're running locally, allow pre-flights from localhost.
+   Otherwise, only accept requests from owned domains"
+  [handler]
+  (if config/local-env?
+    (wrap-cors handler #".*localhost.*")
+    (wrap-cors handler #".*wallbrew.*" #".*herokuapp.*")))
+
 (defn wrap-base
   "The specialty handlers invoked for every HTTP(S) call"
   [handler]
   (-> handler
-      (wrap-cors #".*localhost.*" #".*wallbrew.*" #".*herokuapp.*")
+      wrap-allowable-origins
       wrap-internal-error
       (ring/wrap-defaults default-ring-options)
       wrap-ssl-redirect
