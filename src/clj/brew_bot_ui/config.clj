@@ -69,3 +69,9 @@
 
 (def nrepl-port
   (get-in features [environment :nrepl-port]))
+
+(def google-analytics-id
+  "UA-127942415-2")
+
+(def local-env?
+  (boolean (#{"dev" "test"} environment)))

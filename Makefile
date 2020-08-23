@@ -24,6 +24,18 @@ tests/all:
 	$(info Running server-side and client-side tests...)
 	@ HEROKU_ENV=test $(LEIN) test-build
 
+artifacts:
+	$(info Packaging production-like uberjar and client application...)
+	@ HEROKU_ENV=prod $(LEIN) prod-build
+
+run/dev:
+	$(info Running the development environment...)
+	@ HEROKU_ENV=dev $(LEIN) dev-build
+
+run/selenium:
+	$(info Running the development environment for automated testing...)
+	@ HEROKU_ENV=test $(LEIN) selenium-build
+
 version/major:
 	$(info Updating major version and adding CHANGELOG entry...)
 	@ $(VERCHG) 'major'

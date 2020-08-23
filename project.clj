@@ -1,4 +1,4 @@
-(defproject brew-bot-ui "0.8.1"
+(defproject brew-bot-ui "0.9.0"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
@@ -14,6 +14,8 @@
                  [cljsjs/react "16.11.0-0"]
                  [cljsjs/react-dom "16.11.0-0"]
                  [com.fzakaria/slf4j-timbre "0.3.17"]
+                 [com.wallbrew/brewtility "1.1.0"]
+                 [com.wallbrew/common-beer-format "1.3.0"]
                  [com.zaxxer/HikariCP "3.3.1"]
                  [compojure "1.6.1"]
                  [day8.re-frame/http-fx "0.1.6"]
@@ -76,9 +78,9 @@
 
   :ring {:handler brew-bot-ui.server/app}
 
-  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"]]
+  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"] ["uberjar"]]
             "dev-build"      ["do" "clean" ["cljsbuild" "once" "dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
-            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "selenium" "-r"]]
             "test-build"     ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
 
   :cljsbuild {:builds [{:id           "prod"

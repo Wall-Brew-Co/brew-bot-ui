@@ -2,6 +2,70 @@
 
 The SPA/back-end for brew-bot
 
+## Development
+
+### Client and Server
+
+The entire project's build is managed by [Leiningen.](https://leiningen.org/)
+The most important build configurations have all been aliased with corresponding Makefile entries.
+Depending on the type of testing or development you need to do, you'll need to invoke one of the following commands:
+
+#### Production
+
+```bash
+make artifacts
+```
+
+The full production build of the application.
+This will create an uberjar and package the client application as well.
+This is useful for testing advanced compilation options and catching what would otherwise be runtime errors.
+
+#### Local Development
+
+```bash
+make run/dev
+```
+
+This will forcibly re-compile and launch the development server.
+Once the client-side app has finished compilation, it will open a new tab in your default browser.
+This is useful for standard development.
+
+#### Automation Testing
+
+```bash
+make run/selenium
+```
+
+This will forcibly re-compile and launch the development server in test mode.
+Once the client-side app has finished compilation, it will open a new tab in your default browser.
+This disables some tooling to create an application version that is easily accessed by the Wall Brew automation test suite.
+
+## Unit Testing
+
+The server-side and client-side tests are both located within this repository's `/test` directory.
+JVM tests are controlled by Leiningen, and Javascript tests are controlled by [Karma](https://karma-runner.github.io/latest/index.html) via [doo.](https://github.com/bensu/doo)
+
+If you haven't run the tests before, you'll need to do some basic setup via [npm](https://www.npmjs.com/):
+
+```bash
+npm install karma karma-cljs-test --save-dev
+npm install karma-chrome-launcher karma-firefox-launcher --save-dev
+npm install
+```
+
+From there, you can execute both test suites with the following Make target:
+
+```bash
+tests/all
+```
+
+If you only want to run tests for one runtime environment at a time, similar targets are available:
+
+```bash
+tests/server
+tests/app
+```
+
 ## Deployment
 
 The app's entire deployment is managed by [Terraform](https://www.terraform.io/) via Heroku.

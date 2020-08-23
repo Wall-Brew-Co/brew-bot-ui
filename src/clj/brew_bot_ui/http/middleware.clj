@@ -1,6 +1,6 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.http.layout :as layout]
+            [brew-bot-ui.http.html :as html]
             [brew-bot-ui.logging :as log]
             [nnichols.http :as http]
             [jumblerg.middleware.cors :refer [wrap-cors]]
@@ -48,11 +48,9 @@
         (wrapped-handler request)
         (handler request)))))
 
-(defn wrap-csrf [handler]
-  (wrap-anti-forgery
-   handler
-   {:error-response
-    (layout/render "403.html")}))
+(defn wrap-csrf
+  [handler]
+  (wrap-anti-forgery handler {:error-response (html/not-authorized)}))
 
 (def default-ring-options
   "Update ring's default secure options to account for Heroku's balancers/test modes"
@@ -87,11 +85,19 @@
       (resp/header "Pragma" "no-cache")
       (resp/header "Expires" "0")))
 
+(defn wrap-allowable-origins
+  "If we're running locally, allow pre-flights from localhost.
+   Otherwise, only accept requests from owned domains"
+  [handler]
+  (if config/local-env?
+    (wrap-cors handler #".*localhost.*")
+    (wrap-cors handler #".*wallbrew.*" #".*herokuapp.*")))
+
 (defn wrap-base
   "The specialty handlers invoked for every HTTP(S) call"
   [handler]
   (-> handler
-      (wrap-cors #".*localhost.*" #".*wallbrew.*" #".*herokuapp.*")
+      wrap-allowable-origins
       wrap-internal-error
       (ring/wrap-defaults default-ring-options)
       wrap-ssl-redirect
