@@ -1,3 +1,9 @@
+## v0.9.0 / 2020 Aug 23
+
+> This release adds functionality to serve appropriately styled semi-static pages
+
+* **Add** ^^^
+
 ## v0.8.1 / 2020 Aug 22
 
 > This release fixes a bug that prevent uberjars from being compiled correctly
