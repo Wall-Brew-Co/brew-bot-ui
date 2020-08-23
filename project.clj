@@ -1,4 +1,4 @@
-(defproject brew-bot-ui "0.8.0"
+(defproject brew-bot-ui "0.8.1"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
@@ -32,6 +32,7 @@
                  [nnichols "0.7.0"]
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "1.10.597" :scope "provided"]
+                 [org.clojure/tools.cli "0.4.2"]
                  [org.postgresql/postgresql "42.1.1"]
                  [ragtime "0.8.0"]
                  [re-frame "0.10.9"]
@@ -51,7 +52,7 @@
             [lein-figwheel "0.5.19"]
             [lein-ring "0.12.5"]]
 
-  :source-paths ["src/clj" "src/cljc"]
+  :source-paths ["src/clj" "src/cljc" "env/uberjar/clj"]
   :test-paths ["test/clj" "test/cljc" "test/cljs"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s"
