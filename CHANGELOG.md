@@ -1,3 +1,9 @@
+## v0.8.1 / 2020 Aug 22
+
+> This release fixes a bug that prevent uberjars from being compiled correctly
+
+* **Fix** ^^^
+
 ## v0.8.0 / 2020 Aug 22
 
 > This release updates the hot reloading lifecycle, and fixes a CORS issue
