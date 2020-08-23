@@ -18,27 +18,25 @@
 
 (defn info!
   [message]
-  (log/info message)
-  (when (= :rollbar config/logger)
-    (rollcage/info roller message)))
+  (log/info message))
 
 (defn warn!
   [message]
   (log/warn message)
   (when (= :rollbar config/logger)
-    (rollcage/warning roller message)))
+    (rollcage/warning roller (throw (Exception. message)))))
 
 (defn error!
   [message]
   (log/error message)
   (when (= :rollbar config/logger)
-    (rollcage/error roller message)))
+    (rollcage/error roller (throw (Exception. message)))))
 
 (defn fatal!
   [message]
   (log/fatal message)
   (when (= :rollbar config/logger)
-    (rollcage/critical roller message)))
+    (rollcage/critical roller (throw (Exception. message)))))
 
 (def info
   (comp info! decorate-log))
