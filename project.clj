@@ -78,9 +78,9 @@
 
   :ring {:handler brew-bot-ui.server/app}
 
-  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"]]
+  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"] ["uberjar"]]
             "dev-build"      ["do" "clean" ["cljsbuild" "once" "dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
-            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "selenium" "-r"]]
             "test-build"     ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
 
   :cljsbuild {:builds [{:id           "prod"
