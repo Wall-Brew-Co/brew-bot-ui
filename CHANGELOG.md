@@ -1,3 +1,9 @@
+## v0.8.0 / 2020 Aug 22
+
+> This release updates the hot reloading lifecycle, and fixes a CORS issue
+
+* **Add** ^^^
+
 ## v0.7.0 / 2020 May 15
 
 > This release adds a deployment webhook

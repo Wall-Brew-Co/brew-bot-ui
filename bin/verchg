@@ -70,6 +70,17 @@ function update_deployment {
 }
 
 #
+# Update the test runner
+#
+function update_package {
+  sed -e "s/${version}/${new_version}/" ${package} > package.tmp && mv package.tmp ${package}
+}
+
+function update_package_lock {
+  sed -e "s/${version}/${new_version}/" ${package_lock} > package_lock.tmp && mv package_lock.tmp ${package_lock}
+}
+
+#
 # Update the CHANGELOG.md file to add in the new template for the release notes.
 #
 function update_docs {
@@ -83,11 +94,14 @@ proj="project.clj"
 log="CHANGELOG.md"
 style="doc/templates/changelog_entry.txt"
 deploy="deploy/terraform/variables.tf"
+package="package.json"
+package_lock="package-lock.json"
 
 pull_values
 bump $1 ${version}
 update_code
 update_deployment
 update_docs
-# TODO: Inc deployment # in terraform scripts, package.json, and package-lock.json
+update_package
+update_package_lock
 echo "brew-bot-ui is now at $new_version"

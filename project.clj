@@ -1,9 +1,10 @@
-(defproject brew-bot-ui "0.7.0"
+(defproject brew-bot-ui "0.8.0"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[antizer "0.3.1"]
+  :dependencies [[amalloy/ring-gzip-middleware "0.1.4"]
+                 [antizer "0.3.3"]
                  [brew-bot "2.0.0"]
                  [cheshire "5.9.0"]
                  [cider/piggieback "0.4.2"]
@@ -20,8 +21,13 @@
                  [district0x.re-frame/google-analytics-fx "1.0.0"]
                  [figwheel-sidecar "0.5.19"]
                  [honeysql "0.9.8"]
+                 [jumblerg/ring-cors "2.0.0"]
+                 [luminus-jetty "0.1.7"]
+                 [luminus-nrepl "0.1.6"]
+                 [luminus/ring-ttl-session "0.3.3"]
                  [markdown-clj "1.10.0"]
                  [metosin/ring-http-response "0.9.1"]
+                 [mount "0.1.12"]
                  [nilenso/honeysql-postgres "0.2.6"]
                  [nnichols "0.7.0"]
                  [org.clojure/clojure "1.10.1"]
@@ -54,11 +60,6 @@
   :uberjar-name "brew-bot-ui.jar"
   :main ^:skip-aot brew-bot-ui.main
 
-  :figwheel {:http-server-root "public"
-             :nrepl-port 7002
-             :css-dirs ["resources/public/css"]
-             :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
-
   :doo {:build "test"
         :alias {:default [:chrome-headless-no-sandbox]}
         :paths {:karma "./node_modules/karma/bin/karma"}
@@ -74,38 +75,39 @@
 
   :ring {:handler brew-bot-ui.server/app}
 
-  :aliases {"prod-build" ["do" "clean" ["cljsbuild" "once" "prod"]]
-            "dev-build"  ["do" "clean" ["cljsbuild" "once" "dev"] "figwheel"]
-            "test-build" ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
+  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"]]
+            "dev-build"      ["do" "clean" ["cljsbuild" "once" "dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "test-build"     ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
 
-  :cljsbuild {:builds [{:id "prod"
+  :cljsbuild {:builds [{:id           "prod"
+                        :source-paths ["src/cljs" "src/cljc" "env/uberjar/cljs"]
+                        :compiler     {:main           "brew-bot-ui.main"
+                                       :output-to      "resources/public/js/compiled/app.js"
+                                       :optimizations  :advanced
+                                       :pretty-print   false
+                                       :parallel-build true}}
+
+                       {:id           "dev"
                         :source-paths ["src/cljs" "src/cljc"]
-                        :compiler {:main "brew-bot-ui.main"
-                                   :output-to "resources/public/js/compiled/app.js"
-                                   :optimizations :advanced
-                                   :pretty-print false
-                                   :parallel-build true}}
+                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
+                        :compiler     {:main           "brew-bot-ui.main"
+                                       :asset-path     "js/compiled/out"
+                                       :output-to      "resources/public/js/compiled/app.js"
+                                       :output-dir     "resources/public/js/compiled/out"
+                                       :source-map     true
+                                       :optimizations  :none
+                                       :parallel-build true
+                                       :pretty-print   true}}
 
-                       {:id "dev"
-                        :source-paths ["src/cljs" "src/cljc"]
-                        :figwheel {:on-jsload "brew_bot_ui.main/init"}
-                        :compiler {:main "brew-bot-ui.main"
-                                   :asset-path "js/compiled/out"
-                                   :output-to "resources/public/js/compiled/app.js"
-                                   :output-dir "resources/public/js/compiled/out"
-                                   :source-map true
-                                   :optimizations :none
-                                   :parallel-build true
-                                   :pretty-print true}}
-
-                       {:id "test"
+                       {:id           "test"
                         :source-paths ["src/cljs" "src/cljc" "test/cljs" "test/cljc"]
-                        :figwheel {:on-jsload "brew_bot_ui.main/init"}
-                        :compiler {:main "brew-bot-ui.runner"
-                                   :output-to "resources/test/app.js"
-                                   :output-dir "resources/test/js/compiled/out"
-                                   :optimizations :none
-                                   :parallel-build true}}]}
+                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
+                        :compiler     {:main           "brew-bot-ui.runner"
+                                       :output-to      "resources/test/app.js"
+                                       :output-dir     "resources/test/js/compiled/out"
+                                       :optimizations  :none
+                                       :parallel-build true}}]}
 
   :profiles {:production {:env {:production true}}
              :uberjar {:omit-source  true
@@ -114,8 +116,15 @@
                        :aot          :all
                        :source-paths ["env/uberjar/clj"]}
              :repl {:main brew-bot-ui.core}
-             :dev {:dependencies [[circleci/bond "0.3.0"]
+             :dev {:dependencies [[circleci/bond "0.4.0"]
+                                  [com.bhauman/figwheel-main "0.2.11"]
+                                  [com.bhauman/rebel-readline-cljs "0.1.4"]
+                                  [day8.re-frame/re-frame-10x "0.7.0"]
                                   [doo "0.1.11"]
                                   [javax.servlet/servlet-api "2.5"]
+                                  [ring/ring-devel "1.8.1"]
                                   [ring/ring-mock "0.4.0"]]
-                   :plugins      [[lein-doo "0.1.10"]]}})
+                   :source-paths ["src/clj" "src/cljc" "src/cljs" "env/local/clj" "env/local/cljs"]
+                   :plugins      [[lein-doo "0.1.10"]]
+                   :repl-options   {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]
+                                    :init-ns          user}}})

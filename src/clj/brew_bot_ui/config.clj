@@ -35,7 +35,8 @@
    :server-name   database-url})
 
 (def ^:const features
-  {"dev"  {:route-logging true
+  {"dev"  {:nrepl-port    7000 ; when :nrepl-port is set the application starts the nREPL server on load. This is only safe in dev
+           :route-logging true
            :debug-routes? true
            :logger        :clojure
            :force-ssl?    false
@@ -65,3 +66,6 @@
 
 (def force-json?
   (get-in features [environment :force-json?]))
+
+(def nrepl-port
+  (get-in features [environment :nrepl-port]))
