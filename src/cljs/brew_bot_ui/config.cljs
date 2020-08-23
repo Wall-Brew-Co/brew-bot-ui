@@ -4,9 +4,9 @@
 (def config
   "Client-side configuration map."
   {:wb-prod {:remote-url "https://brewbot.wallbrew.com"
-             :features {:google-analytics false}} ;; TODO submit correct GA id based on context
+             :features {:google-analytics true}}
    :hk-prod {:remote-url "https://brew-bot-server.herokuapp.com"
-             :features {:google-analytics false}}
+             :features {:google-analytics true}}
    :dev     {:remote-url "http://localhost:8000"
              :features {:google-analytics false}}})
 

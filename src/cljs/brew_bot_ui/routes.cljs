@@ -3,6 +3,7 @@
   (:require [secretary.core :as secretary :refer-macros [defroute]]
             [brew-bot-ui.config :as config]
             [brew-bot-ui.events]
+            [district0x.re-frame.google-analytics-fx]
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
             [goog.object]
