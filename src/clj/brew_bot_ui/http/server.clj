@@ -6,7 +6,6 @@
             [brew-bot-ui.logging :as log]
             [compojure.core :refer [defroutes routes GET PUT POST DELETE ANY]]
             [compojure.route :as route]
-            [clojure.java.io :as io]
             [nnichols.http :as nhttp]))
 
 (defroutes default-routes
@@ -36,7 +35,7 @@
 (def app-routes
   (routes #'default-routes
           #'recipes/routes
-          (route/not-found (layout/render "404.html"))))
+          (route/not-found (html/not-found))))
 
 (def app
   "The actual ring handler that is run."

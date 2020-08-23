@@ -69,3 +69,6 @@
 
 (def nrepl-port
   (get-in features [environment :nrepl-port]))
+
+(def google-analytics-id
+  "UA-127942415-2")

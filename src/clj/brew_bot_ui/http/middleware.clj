@@ -1,6 +1,6 @@
 (ns brew-bot-ui.http.middleware
   (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.http.layout :as layout]
+            [brew-bot-ui.http.html :as html]
             [brew-bot-ui.logging :as log]
             [nnichols.http :as http]
             [jumblerg.middleware.cors :refer [wrap-cors]]
@@ -48,11 +48,9 @@
         (wrapped-handler request)
         (handler request)))))
 
-(defn wrap-csrf [handler]
-  (wrap-anti-forgery
-   handler
-   {:error-response
-    (layout/render "403.html")}))
+(defn wrap-csrf
+  [handler]
+  (wrap-anti-forgery handler {:error-response (html/not-authorized)}))
 
 (def default-ring-options
   "Update ring's default secure options to account for Heroku's balancers/test modes"

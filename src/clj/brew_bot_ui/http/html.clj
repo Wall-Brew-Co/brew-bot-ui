@@ -1,5 +1,6 @@
 (ns brew-bot-ui.http.html
-  (:require [selmer.parser :as parser]
+  (:require [brew-bot-ui.config :as config]
+            [selmer.parser :as parser]
             [selmer.filters :as filters]
             [markdown.core :as md]
             [clj-time.core :as t]
@@ -26,12 +27,16 @@
     (parser/render-file
      template
      (assoc params
-            :fingerprint     fingerprint
-            :page            template
-            :csrf-token      *anti-forgery-token*
-            :servlet-context *app-context*)))
+            :fingerprint         fingerprint
+            :page                template
+            :google-analytics-id config/google-analytics-id
+            :csrf-token          *anti-forgery-token*
+            :servlet-context     *app-context*)))
    "text/html; charset=utf-8"))
 
 (defn index [] (render "index.html"))
+(defn not-authorized [] (render "403.html"))
+(defn not-found [] (render "404.html"))
+(defn server-error [] (render "500.html"))
 
 #_(defn example [] (render "example.html" {:title "Wall Brew"}))
