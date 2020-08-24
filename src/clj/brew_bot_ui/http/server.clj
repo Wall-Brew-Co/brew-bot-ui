@@ -12,8 +12,8 @@
   (GET "/" []
     (middleware/wrap-no-cache (html/index)))
   
-    #_(GET "/example" []
-      (middleware/wrap-no-cache (html/example)))
+  (GET "/recipe-builder" []
+    (middleware/wrap-no-cache (html/recipe-builder)))
 
   (GET "/heartbeat" []
     (nhttp/bodiless-json-response 200))
