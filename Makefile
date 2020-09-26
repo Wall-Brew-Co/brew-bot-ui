@@ -39,18 +39,22 @@ run/selenium:
 version/major:
 	$(info Updating major version and adding CHANGELOG entry...)
 	@ $(VERCHG) 'major'
+	@ NODE_ENV=production npm run css
 
 version/minor:
 	$(info Updating minor version and adding CHANGELOG entry...)
 	@ $(VERCHG) 'minor'
+	@ NODE_ENV=production npm run css
 
 version/bugfix:
 	$(info Updating bugfix version and adding CHANGELOG entry...)
 	@ $(VERCHG) 'bugfix'
+	@ NODE_ENV=production npm run css
 
 version:
 	$(info Adding CHANGELOG entry for existing version...)
 	@ $(VERCHG) 'push'
+	@ NODE_ENV=production npm run css
 
 plan/prod:
 	$(info Creating Terraform Plan...)
