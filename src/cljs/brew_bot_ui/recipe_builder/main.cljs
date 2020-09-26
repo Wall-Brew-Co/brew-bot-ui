@@ -1,20 +1,17 @@
-(ns brew-bot-ui.main
-  "Application launcher for the web UI"
-  (:require [brew-bot-ui.config :as config]
-            [brew-bot-ui.layout :as layout]
-            [brew-bot-ui.routes :as routes]
+(ns brew-bot-ui.recipe-builder.main
+  "Application launcher for the Recipe Builder"
+  (:require [brew-bot-ui.shared.config :as config]
+            [brew-bot-ui.recipe-builder.layout :as layout]
             [day8.re-frame.http-fx]
             [district0x.re-frame.google-analytics-fx]
             [reagent.core :as r]
             [re-frame.core :as rf]
 
             ;; All Event/Sub namespaces must be included to load properly
-            [brew-bot-ui.debug]
-            [brew-bot-ui.events]
-            [brew-bot-ui.subs]
-            [brew-bot-ui.recipe-generation.events]
-            [brew-bot-ui.recipe-generation.subs]
-            [brew-bot-ui.recipes.subs]))
+            [brew-bot-ui.shared.debug]
+            [brew-bot-ui.shared.events]
+            [brew-bot-ui.recipe-builder.events]
+            [brew-bot-ui.recipe-builder.subs]))
 
 (enable-console-print!)
 

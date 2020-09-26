@@ -1,4 +1,4 @@
-(ns brew-bot-ui.config
+(ns brew-bot-ui.shared.config
   (:require [clojure.string :as cs]))
 
 (def config

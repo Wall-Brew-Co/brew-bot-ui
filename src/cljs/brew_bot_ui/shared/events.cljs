@@ -1,6 +1,5 @@
-(ns brew-bot-ui.events
-  (:require [brew-bot-ui.db :as db]
-            [brew-bot-ui.request :as request]
+(ns brew-bot-ui.shared.events
+  (:require [brew-bot-ui.shared.request :as request]
             [nnichols.util :as util]
             [re-frame.core :as rf]))
 
@@ -43,19 +42,9 @@
  (fn [db [_ {:keys [version]}]]
    (assoc db :version version)))
 
-(rf/reg-event-fx
- :initialize-db
- (fn [_ [_]]
-   {:dispatch [:stay-alive]
-    :db (assoc db/default-db
-               :x-session-id (util/uuid)
-               :x-request-id 1)}))
-
-(rf/reg-event-fx
- :reset-db
- (fn [{db :db} [_ page]]
-   {:db (merge-with merge db db/default-db)
-    :dispatch [:update-current-page page]}))
+(def fresh-session-keys
+  {:x-session-id (util/uuid)
+   :x-request-id 1})
 
 (rf/reg-event-db
  :update-current-page

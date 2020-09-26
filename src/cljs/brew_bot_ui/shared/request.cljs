@@ -1,6 +1,6 @@
-(ns brew-bot-ui.request
+(ns brew-bot-ui.shared.request
   (:require [ajax.core :as ajax]
-            [brew-bot-ui.config :as config]))
+            [brew-bot-ui.shared.config :as config]))
 
 (def remote-url config/remote-url)
 

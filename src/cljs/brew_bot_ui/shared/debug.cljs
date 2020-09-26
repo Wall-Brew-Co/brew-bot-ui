@@ -1,4 +1,4 @@
-(ns brew-bot-ui.debug
+(ns brew-bot-ui.shared.debug
   "Namespace for debugging using JS Console in non-local environments."
   (:require [re-frame.db :as rf-db]))
 

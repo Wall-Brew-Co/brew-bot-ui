@@ -1,4 +1,4 @@
-(ns brew-bot-ui.subs
+(ns brew-bot-ui.recipe-builder.subs
   (:require [re-frame.core :as rf]))
 
 (rf/reg-sub

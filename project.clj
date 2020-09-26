@@ -4,49 +4,46 @@
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[amalloy/ring-gzip-middleware "0.1.4"]
-                 [antizer "0.3.3"]
-                 [brew-bot "2.0.0"]
-                 [cheshire "5.9.0"]
-                 [cider/piggieback "0.4.2"]
-                 [circleci/rollcage "1.0.203"]
-                 [clj-commons/secretary "1.2.4"]
+                 [brew-bot "2.2.0"]
+                 [cheshire "5.10.0"]
+                 [cider/piggieback "0.5.1"]
+                 [circleci/rollcage "1.0.208"]
                  [clj-time "0.15.2"]
-                 [cljsjs/react "16.11.0-0"]
-                 [cljsjs/react-dom "16.11.0-0"]
-                 [com.fzakaria/slf4j-timbre "0.3.17"]
+                 [cljsjs/react "16.13.1-0"]
+                 [cljsjs/react-dom "16.13.1-0"]
+                 [com.fzakaria/slf4j-timbre "0.3.19"]
                  [com.wallbrew/brewtility "1.1.0"]
                  [com.wallbrew/common-beer-format "1.3.0"]
-                 [com.zaxxer/HikariCP "3.3.1"]
-                 [compojure "1.6.1"]
-                 [day8.re-frame/http-fx "0.1.6"]
-                 [day8.re-frame/test "0.1.5"]
+                 [com.zaxxer/HikariCP "3.4.5"]
+                 [compojure "1.6.2"]
+                 [day8.re-frame/http-fx "0.2.1"]
                  [district0x.re-frame/google-analytics-fx "1.0.0"]
-                 [figwheel-sidecar "0.5.19"]
+                 [figwheel-sidecar "0.5.20"]
                  [honeysql "0.9.8"]
                  [jumblerg/ring-cors "2.0.0"]
-                 [luminus-jetty "0.1.7"]
-                 [luminus-nrepl "0.1.6"]
+                 [luminus-jetty "0.2.1"]
+                 [luminus-nrepl "0.1.7"]
                  [luminus/ring-ttl-session "0.3.3"]
-                 [markdown-clj "1.10.0"]
+                 [markdown-clj "1.10.5"]
                  [metosin/ring-http-response "0.9.1"]
-                 [mount "0.1.12"]
+                 [mount "0.1.16"]
                  [nilenso/honeysql-postgres "0.2.6"]
-                 [nnichols "0.7.0"]
+                 [nnichols "1.0.0"]
                  [org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.773"]
                  [org.clojure/tools.cli "0.4.2"]
-                 [org.postgresql/postgresql "42.1.1"]
+                 [org.postgresql/postgresql "42.2.16"]
                  [ragtime "0.8.0"]
-                 [re-frame "0.10.9"]
-                 [reagent "0.8.1"]
+                 [re-frame "1.1.1"]
+                 [reagent "0.10.0"]
                  [reagent-utils "0.3.3"]
                  [ring-logger "1.0.1"]
-                 [ring/ring-core "1.8.0"]
-                 [ring/ring-jetty-adapter "1.8.0"]
+                 [ring/ring-core "1.8.1"]
+                 [ring/ring-jetty-adapter "1.8.1"]
                  [ring/ring-json "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [seancorfield/next.jdbc "1.0.13"]
-                 [selmer "1.12.18"]
+                 [seancorfield/next.jdbc "1.1.588"]
+                 [selmer "1.12.28"]
                  [trptcolin/versioneer "0.2.0"]]
 
   :plugins [[com.jakemccrary/lein-test-refresh "0.19.0"]
@@ -62,6 +59,7 @@
   :min-lein-version "2.5.3"
   :uberjar-name "brew-bot-ui.jar"
   :main ^:skip-aot brew-bot-ui.main
+  :ring {:handler brew-bot-ui.server/app}
 
   :doo {:build "test"
         :alias {:default [:chrome-headless-no-sandbox]}
@@ -76,46 +74,15 @@
                                                           {"base"  "ChromeHeadless"
                                                            "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
 
-  :ring {:handler brew-bot-ui.server/app}
-
-  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "prod"] ["uberjar"]]
-            "dev-build"      ["do" "clean" ["cljsbuild" "once" "dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["uberjar"]]
+            "dev-build"      ["do" "clean" ["cljsbuild" "once" "recipe-builder-dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
             "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "selenium" "-r"]]
             "test-build"     ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
-
-  :cljsbuild {:builds [{:id           "prod"
-                        :source-paths ["src/cljs" "src/cljc" "env/uberjar/cljs"]
-                        :compiler     {:main           "brew-bot-ui.main"
-                                       :output-to      "resources/public/js/compiled/app.js"
-                                       :optimizations  :advanced
-                                       :pretty-print   false
-                                       :parallel-build true}}
-
-                       {:id           "dev"
-                        :source-paths ["src/cljs" "src/cljc"]
-                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
-                        :compiler     {:main           "brew-bot-ui.main"
-                                       :asset-path     "js/compiled/out"
-                                       :output-to      "resources/public/js/compiled/app.js"
-                                       :output-dir     "resources/public/js/compiled/out"
-                                       :source-map     true
-                                       :optimizations  :none
-                                       :parallel-build true
-                                       :pretty-print   true}}
-
-                       {:id           "test"
-                        :source-paths ["src/cljs" "src/cljc" "test/cljs" "test/cljc"]
-                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
-                        :compiler     {:main           "brew-bot-ui.runner"
-                                       :output-to      "resources/test/app.js"
-                                       :output-dir     "resources/test/js/compiled/out"
-                                       :optimizations  :none
-                                       :parallel-build true}}]}
 
   :profiles {:production {:env {:production true}}
              :uberjar {:omit-source  true
                        :prep-tasks   ["compile" ["cljsbuild" "once" "prod"]]
-                       :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]
+                       :dependencies [[day8.re-frame/tracing-stubs "0.6.0"]]
                        :aot          :all
                        :source-paths ["env/uberjar/clj"]}
              :repl {:main brew-bot-ui.core}
@@ -130,4 +97,33 @@
                    :source-paths ["src/clj" "src/cljc" "src/cljs" "env/local/clj" "env/local/cljs"]
                    :plugins      [[lein-doo "0.1.10"]]
                    :repl-options   {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]
-                                    :init-ns          user}}})
+                                    :init-ns          user}}}
+
+  :cljsbuild {:builds [{:id           "recipe-builder-prod"
+                        :source-paths ["src/cljs/brew_bot_ui/shared" "src/cljs/brew_bot_ui/recipe_builder" "src/cljc" "env/uberjar/cljs"]
+                        :compiler     {:main           "brew-bot-ui.recipe-builder.main"
+                                       :output-to      "resources/public/js/compiled/recipe-builder.js"
+                                       :optimizations  :advanced
+                                       :pretty-print   false
+                                       :parallel-build true}}
+
+                       {:id           "recipe-builder-dev"
+                        :source-paths ["src/cljs/brew_bot_ui/shared" "src/cljs/brew_bot_ui/recipe_builder" "src/cljc"]
+                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
+                        :compiler     {:main           "brew-bot-ui.recipe_builder.main"
+                                       :asset-path     "js/compiled/out"
+                                       :output-to      "resources/public/js/compiled/recipe-builder.js"
+                                       :output-dir     "resources/public/js/compiled/out"
+                                       :source-map     true
+                                       :optimizations  :none
+                                       :parallel-build true
+                                       :pretty-print   true}}
+
+                       {:id           "test"
+                        :source-paths ["src/cljs" "src/cljc" "test/cljs" "test/cljc"]
+                        :figwheel     {:on-jsload "brew_bot_ui.main/init"}
+                        :compiler     {:main           "brew-bot-ui.runner"
+                                       :output-to      "resources/test/app.js"
+                                       :output-dir     "resources/test/js/compiled/out"
+                                       :optimizations  :none
+                                       :parallel-build true}}]})

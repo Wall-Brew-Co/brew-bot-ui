@@ -10,8 +10,8 @@
 
 (defroutes default-routes
   (GET "/" []
-    (middleware/wrap-no-cache (html/index)))
-  
+    (middleware/wrap-no-cache (html/recipe-builder)))
+
   (GET "/recipe-builder" []
     (middleware/wrap-no-cache (html/recipe-builder)))
 
