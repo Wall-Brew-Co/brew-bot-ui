@@ -59,3 +59,6 @@ plan/prod:
 deploy/prod:
 	$(info Deploying brew-bot-ui to Production...)
 	@ $(MAKE) -C $(TERRAFORM_DIR) apply/prod
+
+release/css:
+	@ NODE_ENV=production npm run css

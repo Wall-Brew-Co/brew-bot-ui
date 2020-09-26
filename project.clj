@@ -81,7 +81,7 @@
 
   :profiles {:production {:env {:production true}}
              :uberjar {:omit-source  true
-                       :prep-tasks   ["compile" ["cljsbuild" "once" "prod"]]
+                       :prep-tasks   ["compile" ["cljsbuild" "once" "recipe-builder-prod"]]
                        :dependencies [[day8.re-frame/tracing-stubs "0.6.0"]]
                        :aot          :all
                        :source-paths ["env/uberjar/clj"]}
@@ -100,8 +100,8 @@
                                     :init-ns          user}}}
 
   :cljsbuild {:builds [{:id           "recipe-builder-prod"
-                        :source-paths ["src/cljs/brew_bot_ui/shared" "src/cljs/brew_bot_ui/recipe_builder" "src/cljc" "env/uberjar/cljs"]
-                        :compiler     {:main           "brew-bot-ui.recipe-builder.main"
+                        :source-paths ["src/cljs/brew_bot_ui/shared" "src/cljs/brew_bot_ui/recipe_builder" "src/cljc"]
+                        :compiler     {:asset-path     "js/compiled/out"
                                        :output-to      "resources/public/js/compiled/recipe-builder.js"
                                        :optimizations  :advanced
                                        :pretty-print   false

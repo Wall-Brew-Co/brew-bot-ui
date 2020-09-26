@@ -7,6 +7,16 @@
     "test": "test"
   },
   "dependencies": {
+    "postcss": "^7.0.32",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.7.6",
+    "@fullhuman/postcss-purgecss": "^2.1.0",
+    "autoprefixer": "^9.7.4",
+    "jsdom": "^16.2.0",
+    "postcss-cli": "^7.1.0",
+    "postcss-csso": "^4.0.0",
+    "postcss-hash": "^2.0.0",
+    "tailwindcss-pseudo-elements": "^1.1.2",
     "karma": "^5.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cljs-test": "^0.1.0",
@@ -14,7 +24,8 @@
     "minimist": ">=1.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "css": "postcss src/css/style.css -o resources/public/css/style.css",
+    "css:watch": "npm run css -- --watch"
   },
   "repository": {
     "type": "git",

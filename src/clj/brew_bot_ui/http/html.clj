@@ -36,8 +36,6 @@
         render-opts   (add-default-page-values render-params)]
     (ring/content-type (ring/ok (parser/render-file template render-opts)) "text/html; charset=utf-8")))
 
-(defn index [] (render "index.html"))
-
 (defn recipe-builder [] (render "recipe_builder.html"))
 
 (defn error-page
