@@ -2,54 +2,33 @@
   "Interface for environment-specific logging"
   (:require [brew-bot-ui.config :as config]
             [circleci.rollcage.core :as rollcage]
-            [clj-time.core :as time]
             [taoensso.timbre :as log]
             [wb-metrics.logging :as metrics]))
 
 (def roller
   (rollcage/client config/rollcage-token {:environment "production"}))
 
-(defn decorate-log
-  "Add default information to every log"
-  [message]
-  (str "Time: " (time/now) " "
-       "Application: " (:app (config/app-info)) " "
-       "Version: " (:version (config/app-info)) " "
-       "Message: " message))
-
-(defn info!
+(defn info
   [message]
   (log/info message))
 
-(defn warn!
+(defn warn
   [message]
   (log/warn message)
   (when (= :rollbar config/logger)
     (rollcage/warning roller (throw (Exception. message)))))
 
-(defn error!
+(defn error
   [message]
   (log/error message)
   (when (= :rollbar config/logger)
     (rollcage/error roller (throw (Exception. message)))))
 
-(defn fatal!
+(defn fatal
   [message]
   (log/fatal message)
   (when (= :rollbar config/logger)
     (rollcage/critical roller (throw (Exception. message)))))
-
-(def info
-  (comp info! decorate-log))
-
-(def warn
-  (comp warn! decorate-log))
-
-(def error
-  (comp error! decorate-log))
-
-(def fatal
-  (comp fatal! decorate-log))
 
 (defn wrap-app-error-handling
   "Ensure any application level errors are appropriately logged"
