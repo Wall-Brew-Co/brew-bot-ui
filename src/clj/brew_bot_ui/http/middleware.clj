@@ -12,7 +12,8 @@
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.ssl :as ring-ssl]
             [ring-ttl-session.core :refer [ttl-memory-store]]
-            [ring.util.response :as resp]))
+            [ring.util.response :as resp]
+            [wb-metrics.ring :as metrics]))
 
 (defn wrap-ignore-trailing-slash
   "Modifies the request uri before calling the handler.
@@ -107,4 +108,5 @@
       wrap-logging
       wrap-json-conformer
       (wrap-json-body {:keywords? true})
-      gzip/wrap-gzip))
+      gzip/wrap-gzip
+      metrics/wrap-instrument-server))

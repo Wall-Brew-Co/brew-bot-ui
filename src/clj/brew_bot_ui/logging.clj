@@ -3,7 +3,8 @@
   (:require [brew-bot-ui.config :as config]
             [circleci.rollcage.core :as rollcage]
             [clj-time.core :as time]
-            [clojure.tools.logging :as log]))
+            [taoensso.timbre :as log]
+            [wb-metrics.logging :as metrics]))
 
 (def roller
   (rollcage/client config/rollcage-token {:environment "production"}))
@@ -56,7 +57,6 @@
   (try
     (func)
     (catch Throwable t
-      (.println System/err (decorate-log t))
       (error t)
       (throw t))))
 
@@ -64,7 +64,8 @@
   [& body]
   `(wrap-app-error-handling (fn [] ~@body)))
 
-(defn init-fallback-logger
-  "Start the rollcage fallback exception handler"
+(defn init-fallback-logger!
+  "Start the rollcage fallback exception handler and the wb-metrics reporter"
   []
+  (metrics/configure! {:group-name "com.wallbrew" :artifact-name "brew-bot-ui"})
   (rollcage/setup-uncaught-exception-handler roller))

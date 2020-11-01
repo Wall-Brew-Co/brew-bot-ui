@@ -46,5 +46,5 @@
 
 (defn -main
   [& args]
-  (log/init-fallback-logger)
+  (log/init-fallback-logger!)
   (log/with-error-handling (start-app args)))
