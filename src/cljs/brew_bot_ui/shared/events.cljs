@@ -31,7 +31,7 @@
 (rf/reg-event-fx
  :get-version
  (fn [_ [_]]
-   {:http-xhrio [(merge request/json-request-response
+   {:http-xhrio [(merge (request/json-request-response)
                         {:method :get
                          :uri (str request/remote-url "/info")
                          :on-success [:get-version-succeeded]
@@ -62,7 +62,7 @@
                     :x-session-id (:x-session-id db)
                     :x-request-id (:x-request-id db)}]
      {:db (update db :x-request-id inc)
-      :http-xhrio (merge request/json-request-response
+      :http-xhrio (merge (request/json-request-response)
                          {:method     :put
                           :uri        (str request/remote-url "/log")
                           :params     (merge data base-info)

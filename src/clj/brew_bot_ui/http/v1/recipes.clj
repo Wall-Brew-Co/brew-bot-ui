@@ -1,7 +1,6 @@
 (ns brew-bot-ui.http.v1.recipes
   (:require [brew-bot-ui.core :as core]
             [brew-bot-ui.http.route-specs :as rs]
-            [brew-bot-ui.logging :as log]
             [compojure.coercions :refer [as-uuid]]
             [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
             [compojure.route :as route]

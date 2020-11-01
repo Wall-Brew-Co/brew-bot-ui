@@ -1,10 +1,18 @@
 (ns brew-bot-ui.shared.request
   (:require [ajax.core :as ajax]
-            [brew-bot-ui.shared.config :as config]))
+            [brew-bot-ui.shared.config :as config]
+            [nnichols.util :as util]))
 
 (def remote-url config/remote-url)
+(def x-session-id (util/uuid))
+(def x-request-id (atom 1))
 
-(def ^:const json-request-response
-  {:format          (ajax/json-request-format)
-   :response-format (ajax/json-response-format {:keywords? true})
-   :headers         {"X-CSRF-Token" js/csrfToken}})
+(defn json-request-response
+  []
+  (let [request-id @x-request-id]
+    (swap! x-request-id inc)
+    {:format          (ajax/json-request-format)
+     :response-format (ajax/json-response-format {:keywords? true})
+     :headers         {"X-CSRF-Token" js/csrfToken
+                       "x-session-id" x-session-id
+                       "x-request-id" request-id}}))
