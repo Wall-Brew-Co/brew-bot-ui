@@ -65,7 +65,7 @@ resource "heroku_build" "server" {
 
   source = {
     url     = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
-    version = "${var.app_version}"
+    version = var.app_version
   }
 }
 
