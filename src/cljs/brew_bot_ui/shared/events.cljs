@@ -1,9 +1,9 @@
 (ns brew-bot-ui.shared.events
   (:require [brew-bot-ui.shared.request :as request]
-            [nnichols.util :as util]
             [re-frame.core :as rf]))
 
 (defonce repeating-event-timers (atom {}))
+(defonce debounce-event-keys (atom nil))
 
 (rf/reg-fx
  :start-repeating-event
@@ -20,6 +20,22 @@
  (fn [event]
    (js/clearInterval (@repeating-event-timers event))
    (swap! repeating-event-timers #(dissoc % event))))
+
+(defn dispatch-if-not-superceded
+  [{:keys [key event time-received]}]
+  (when (= time-received (get @debounce-event-keys key))
+    (rf/dispatch event)))
+
+(defn dispatch-later
+  [{:keys [delay] :as debounce}]
+  (js/setTimeout (fn [] (dispatch-if-not-superceded debounce)) delay))
+
+(rf/reg-fx
+ :dispatch-debounce
+ (fn dispatch-debounce [debounce]
+   (let [timestamp (.getTime (js/Date.))]
+     (swap! debounce-event-keys assoc (:key debounce) timestamp)
+     (dispatch-later (assoc debounce :time-received timestamp)))))
 
 ;; Dynos will idle if they're inactive, so we ping them on an interval
 (rf/reg-event-fx
@@ -41,10 +57,6 @@
  :get-version-succeeded
  (fn [db [_ {:keys [version]}]]
    (assoc db :version version)))
-
-(def fresh-session-keys
-  {:x-session-id (util/uuid)
-   :x-request-id 1})
 
 (rf/reg-event-db
  :update-current-page

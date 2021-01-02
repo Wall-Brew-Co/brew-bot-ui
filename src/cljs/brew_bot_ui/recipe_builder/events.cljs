@@ -6,4 +6,4 @@
  :initialize-db
  (fn [_ [_]]
    {:dispatch [:stay-alive]
-    :db db/default-db}))
+    :db       db/default-db}))
