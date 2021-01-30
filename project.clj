@@ -33,7 +33,7 @@
                  [nilenso/honeysql-postgres "0.2.6"]
                  [nnichols "0.7.0"]
                  [org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.597" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.773" :scope "provided"]
                  [org.clojure/tools.cli "0.4.2"]
                  [org.postgresql/postgresql "42.1.1"]
                  [ragtime "0.8.0"]
