@@ -18,7 +18,7 @@
                  [com.wallbrew/common-beer-format "1.3.1"]
                  [com.zaxxer/HikariCP "4.0.1"]
                  [compojure "1.6.1"]
-                 [day8.re-frame/http-fx "0.1.6"]
+                 [day8.re-frame/http-fx "0.2.2"]
                  [day8.re-frame/test "0.1.5"]
                  [district0x.re-frame/google-analytics-fx "1.0.0"]
                  [figwheel-sidecar "0.5.19"]
