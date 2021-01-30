@@ -120,7 +120,7 @@
                        :source-paths ["env/uberjar/clj"]}
              :repl {:main brew-bot-ui.core}
              :dev {:dependencies [[circleci/bond "0.4.0"]
-                                  [com.bhauman/figwheel-main "0.2.11"]
+                                  [com.bhauman/figwheel-main "0.2.12"]
                                   [com.bhauman/rebel-readline-cljs "0.1.4"]
                                   [day8.re-frame/re-frame-10x "0.7.0"]
                                   [doo "0.1.11"]
