@@ -115,7 +115,7 @@
   :profiles {:production {:env {:production true}}
              :uberjar {:omit-source  true
                        :prep-tasks   ["compile" ["cljsbuild" "once" "prod"]]
-                       :dependencies [[day8.re-frame/tracing-stubs "0.5.3"]]
+                       :dependencies [[day8.re-frame/tracing-stubs "0.6.0"]]
                        :aot          :all
                        :source-paths ["env/uberjar/clj"]}
              :repl {:main brew-bot-ui.core}
