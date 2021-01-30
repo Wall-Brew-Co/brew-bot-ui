@@ -7,7 +7,7 @@
                  [antizer "0.3.3"]
                  [brew-bot "2.0.0"]
                  [cheshire "5.9.0"]
-                 [cider/piggieback "0.4.2"]
+                 [cider/piggieback "0.5.2"]
                  [circleci/rollcage "1.0.203"]
                  [clj-commons/secretary "1.2.4"]
                  [clj-time "0.15.2"]
