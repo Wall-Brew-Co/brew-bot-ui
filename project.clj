@@ -45,7 +45,7 @@
                  [ring/ring-jetty-adapter "1.8.2"]
                  [ring/ring-json "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [seancorfield/next.jdbc "1.0.13"]
+                 [seancorfield/next.jdbc "1.1.613"]
                  [selmer "1.12.18"]
                  [trptcolin/versioneer "0.2.0"]]
 
