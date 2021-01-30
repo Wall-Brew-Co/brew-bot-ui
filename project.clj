@@ -49,7 +49,7 @@
                  [selmer "1.12.18"]
                  [trptcolin/versioneer "0.2.0"]]
 
-  :plugins [[com.jakemccrary/lein-test-refresh "0.19.0"]
+  :plugins [[com.jakemccrary/lein-test-refresh "0.24.1"]
             [lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.19"]
             [lein-ring "0.12.5"]]
