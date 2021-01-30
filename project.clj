@@ -125,7 +125,7 @@
                                   [day8.re-frame/re-frame-10x "0.7.0"]
                                   [doo "0.1.11"]
                                   [javax.servlet/servlet-api "2.5"]
-                                  [ring/ring-devel "1.8.1"]
+                                  [ring/ring-devel "1.8.2"]
                                   [ring/ring-mock "0.4.0"]]
                    :source-paths ["src/clj" "src/cljc" "src/cljs" "env/local/clj" "env/local/cljs"]
                    :plugins      [[lein-doo "0.1.10"]]
