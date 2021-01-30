@@ -8,7 +8,7 @@
                  [brew-bot "2.0.0"]
                  [cheshire "5.9.0"]
                  [cider/piggieback "0.5.2"]
-                 [circleci/rollcage "1.0.203"]
+                 [circleci/rollcage "1.0.218"]
                  [clj-commons/secretary "1.2.4"]
                  [clj-time "0.15.2"]
                  [cljsjs/react "16.11.0-0"]
