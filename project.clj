@@ -13,7 +13,7 @@
                  [clj-time "0.15.2"]
                  [cljsjs/react "17.0.1-0"]
                  [cljsjs/react-dom "17.0.1-0"]
-                 [com.fzakaria/slf4j-timbre "0.3.17"]
+                 [com.fzakaria/slf4j-timbre "0.3.20"]
                  [com.wallbrew/brewtility "1.1.0"]
                  [com.wallbrew/common-beer-format "1.3.0"]
                  [com.zaxxer/HikariCP "3.3.1"]
