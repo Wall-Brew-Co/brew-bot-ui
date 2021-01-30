@@ -35,7 +35,7 @@
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "1.10.773" :scope "provided"]
                  [org.clojure/tools.cli "1.0.194"]
-                 [org.postgresql/postgresql "42.1.1"]
+                 [org.postgresql/postgresql "42.2.18"]
                  [ragtime "0.8.0"]
                  [re-frame "0.10.9"]
                  [reagent "0.8.1"]
