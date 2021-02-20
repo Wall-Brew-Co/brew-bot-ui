@@ -47,7 +47,7 @@
 (rf/reg-event-fx
  :get-version
  (fn [_ [_]]
-   {:http-xhrio [(merge (request/json-request-response)
+   {:http-xhrio [(merge (request/json-request-response true)
                         {:method :get
                          :uri (str request/remote-url "/info")
                          :on-success [:get-version-succeeded]

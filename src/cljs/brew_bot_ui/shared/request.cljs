@@ -8,11 +8,14 @@
 (def x-request-id (atom 1))
 
 (defn json-request-response
-  []
-  (let [request-id @x-request-id]
-    (swap! x-request-id inc)
-    {:format          (ajax/json-request-format)
-     :response-format (ajax/json-response-format {:keywords? true})
-     :headers         {"X-CSRF-Token" js/csrfToken
-                       "x-session-id" x-session-id
-                       "x-request-id" request-id}}))
+  ([]
+   (json-request-response false))
+
+  ([maintain-request-id?]
+   (let [request-id @x-request-id]
+     (when-not maintain-request-id? (swap! x-request-id inc))
+     {:format          (ajax/json-request-format)
+      :response-format (ajax/json-response-format {:keywords? true})
+      :headers         {"X-CSRF-Token" js/csrfToken
+                        "x-session-id" x-session-id
+                        "x-request-id" request-id}})))
