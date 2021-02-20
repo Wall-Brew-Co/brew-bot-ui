@@ -1,6 +1,6 @@
 (ns brew-bot-ui.repl.figwheel
   (:require [brew-bot-ui.http.server :as server]
-            [brew-bot-ui.main :as bb]))
+            [brew-bot-ui.dev :as bb]))
 
 (defn init
   [_cfg]

@@ -7,7 +7,7 @@
              :features   {:google-analytics true}}
    :hk-prod {:remote-url "https://brew-bot-server.herokuapp.com"
              :features   {:google-analytics true}}
-   :dev     {:remote-url "http://localhost:8000"
+   :dev     {:remote-url "http://localhost:8080"
              :features   {:google-analytics false}}})
 
 (def config-by-domain
@@ -20,7 +20,8 @@
 (defn get-domain-by-location
   "Returns the domain corresponding to the current browser location."
   []
-  (let [loc (.-href (.-location js/document))]
+  (let [loc (.-href (.-location js/document))
+        _ (println loc)]
     (or (first (filter #(cs/includes? loc %) (keys config-by-domain)))
         "localhost")))
 

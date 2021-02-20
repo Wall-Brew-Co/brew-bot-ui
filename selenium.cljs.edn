@@ -1,7 +1,5 @@
 ^{:ring-handler brew-bot-ui.repl.figwheel/handler
   :pre-build-hooks [brew-bot-ui.repl.figwheel/init]
-  ;cant refer to variables here, so make sure these match config/jetty
-  :ring-server-options {:request-header-size 65536}
   :css-dirs   ["resources/public/css"]
   :watch-dirs ["src/cljs" "src/cljc" "env/local/cljs"]}
 {:main       brew-bot-ui.app

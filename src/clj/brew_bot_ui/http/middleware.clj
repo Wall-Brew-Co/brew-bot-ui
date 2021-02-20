@@ -11,7 +11,6 @@
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.ssl :as ring-ssl]
-            [ring-ttl-session.core :refer [ttl-memory-store]]
             [ring.util.response :as resp]
             [wb-metrics.ring :as metrics]))
 
@@ -58,7 +57,6 @@
   (-> ring/secure-site-defaults
       (assoc :proxy true)
       (assoc-in [:security :anti-forgery] false) ;; This is handled elsewhere
-      (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
       (assoc-in [:security :ssl-redirect] config/force-ssl?)))
 
 (defn wrap-ssl-redirect

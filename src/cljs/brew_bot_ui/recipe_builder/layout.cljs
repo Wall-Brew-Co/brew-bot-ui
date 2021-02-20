@@ -28,7 +28,7 @@
                       :value        @recipe-author
                       :id           "RecipeAuthorInputBox"
                       :label        "Recipe Author"
-                      :autocomplete "name"
+                      :autoComplete "name"
                       :on-change    #(reset! recipe-author (-> % .-target .-value))}]]
        [:div {:id    "RecipeScaling"
               :class (cu/join-classes "flex" "flex-wrap" "flex-row" "px-2" "justify-around" "text-base")}
