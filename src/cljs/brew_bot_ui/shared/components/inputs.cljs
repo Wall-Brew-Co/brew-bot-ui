@@ -1,7 +1,6 @@
 (ns brew-bot-ui.shared.components.inputs
   (:require [brew-bot-ui.shared.components.util :as util]))
 
-
 (def text-input-class
   {:class (util/join-classes "w-full" "p-4" "rounded-sm" "bg-pearl-gray" "border" "shadow-sm" "has-float-label" "flex" "leading-relaxed" "focus:outline-none" "focus:shadow-outline" "block")})
 
@@ -32,3 +31,17 @@
       [:div
        [label input-id label-attrs]
        [:input (merge-with merge text-style text-input-class attrs)]])))
+
+(defn select-box
+  "A drop-down select box.
+   Expects `_options` to be passed as an ordered collection of maps containing a :value and a :name"
+  [_attrs _options]
+  (fn [attrs options]
+    (let [input-id    (:id attrs)
+          label-attrs (select-keys attrs [:label :description])]
+      [:div
+       [label input-id label-attrs]
+       [:select (merge-with merge text-style text-input-class attrs)
+        (for [option options]
+          [:option {:key (:value option)
+                    :value (:value option)} (:name option)])]])))

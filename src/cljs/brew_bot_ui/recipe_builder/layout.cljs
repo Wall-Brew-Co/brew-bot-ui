@@ -33,6 +33,10 @@
        [:div {:id    "RecipeScaling"
               :class (cu/join-classes "flex" "flex-wrap" "flex-row" "px-2" "justify-around" "text-base")}
         [:p "Units Toggle"]
+         [inputs/select-box {:style        {:min-width "140px"}
+                             :id           "sample-select"
+                             :label        "sample select"}
+          [{:value "a" :name "a"}{:value "b" :name "b"} {:value "c" :name "c"}{:value "d" :name "d"}{:value "e" :name "e"}]]
         [:p "Brewing Method"]
         [:p "Fermentation Volume"]
         [:p "Boil Volume"]
