@@ -28,7 +28,7 @@
   (fn [attrs]
     (let [input-id    (:id attrs)
           label-attrs (select-keys attrs [:label :description])]
-      [:div
+      [:div {:style {:margin "0 2 0 2"}}
        [label input-id label-attrs]
        [:input (merge-with merge text-style text-input-class attrs)]])))
 
@@ -39,9 +39,33 @@
   (fn [attrs options]
     (let [input-id    (:id attrs)
           label-attrs (select-keys attrs [:label :description])]
-      [:div
+      [:div {:style {:margin "0 2 0 2"}}
        [label input-id label-attrs]
        [:select (merge-with merge text-style text-input-class attrs)
         (for [option options]
           [:option {:key (:value option)
                     :value (:value option)} (:name option)])]])))
+
+(defn number
+  "A number select box.
+   Expects :max and :min to be passed as attrs"
+  [_attrs]
+  (fn [attrs]
+    (let [input-id    (:id attrs)
+          label-attrs (select-keys attrs [:label :description])]
+      [:div {:style {:margin "0 2 0 2"}}
+       [label input-id label-attrs]
+       [:input (merge-with merge text-style text-input-class {:type "number"} attrs)]])))
+
+(def checkbox-class
+  {:class (util/join-classes "checkbox" "absolute" "block" "w-6" "h-6" "rounded-full" "bg-white" "border-4" "appearance-none" "cursor-pointer")})
+
+(defn checkbox
+  "A sliding checkbox"
+  [_attrs]
+  (fn [attrs]
+    (let [input-id    (:id attrs)
+          label-attrs (select-keys attrs [:label :description])]
+      [:div {:style {:margin "0 2 0 2"}}
+       [:input (merge-with merge checkbox-class {:type "checkbox"} attrs)]
+       [label input-id label-attrs]])))

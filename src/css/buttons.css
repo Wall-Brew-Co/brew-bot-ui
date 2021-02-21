@@ -1,0 +1,11 @@
+.btn-rounded {
+  @apply border border-gray-500 text-gray-700 m-2 p-2 rounded-lg;
+}
+
+.btn-rounded-full {
+  @apply rounded-full w-full mb-2 py-4;
+}
+
+.btn-link {
+  @apply bg-transparent underline text-steel;
+}
