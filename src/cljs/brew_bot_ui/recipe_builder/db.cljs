@@ -4,4 +4,10 @@
   {:current-page :home
    :recipe       {:fermentables {}
                   :hops         {}
-                  :yeasts       {}}})
+                  :yeasts       {}}
+   :search-boxes {:fermentables {}
+                  :hops         {}
+                  :yeasts       {}}
+   :search-results {:fermentables []
+                    :hops         []
+                    :yeasts       []}})

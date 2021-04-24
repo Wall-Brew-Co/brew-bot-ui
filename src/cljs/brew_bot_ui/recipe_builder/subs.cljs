@@ -25,3 +25,18 @@
  :yeasts
  (fn [db _]
    (get-in db [:recipe :yeasts])))
+
+(rf/reg-sub
+ :yeast-search-criteria
+ (fn [db _]
+   (get-in db [:search-boxes :yeast])))
+
+(rf/reg-sub
+ :hop-search-criteria
+ (fn [db _]
+   (get-in db [:search-boxes :hop])))
+
+(rf/reg-sub
+ :fermentable-search-criteria
+ (fn [db _]
+   (get-in db [:search-boxes :fermentable])))

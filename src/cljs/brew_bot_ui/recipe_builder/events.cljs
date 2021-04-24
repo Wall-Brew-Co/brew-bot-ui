@@ -1,5 +1,6 @@
 (ns brew-bot-ui.recipe-builder.events
   (:require [brew-bot-ui.recipe-builder.db :as db]
+            [brew-bot-ui.shared.ingredient-utils :as util]
             [common-beer-format.data.data :as ingredient-data]
             [re-frame.core :as rf]))
 
@@ -38,3 +39,11 @@
        (let [base-yeast (get ingredient-data/all-yeasts yeast-key)
              yeast (assoc base-yeast :amount amount)]
          (assoc-in db [:recipe :yeasts yeast-key] yeast))))))
+
+(rf/reg-event-db
+   :fermentable-search
+   (fn [db [_ search-criteria]]
+     (let [matching-fermentables (util/search-ingredients :fermentables search-criteria)]
+       (-> db
+          (assoc-in [:search-boxes :fermentables] search-criteria)
+          (assoc-in [:search-results :fermentables] matching-fermentables)))))

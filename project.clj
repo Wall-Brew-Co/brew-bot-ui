@@ -29,6 +29,7 @@
                  [nnichols "1.0.0"]
                  [org.clojure/clojure "1.10.2"]
                  [org.clojure/clojurescript "1.10.773"]
+                 [org.clojure/spec.alpha "0.2.194"]
                  [org.clojure/tools.cli "0.4.2"]
                  [org.postgresql/postgresql "42.2.19"]
                  [ragtime "0.8.0"]
