@@ -6,13 +6,13 @@
             [common-beer-format.specs.hops :as hops]
             [common-beer-format.specs.yeasts :as yeasts]))
 
-(deftest all-ingredients-by-type-test
-  (is (every? #(csa/valid? ::ferms/fermentable (sut/all-ingredients-by-type :fermentables))))
-  (is (every? #(csa/valid? ::hops/hop (sut/all-ingredients-by-type :hops))))
-  (is (every? #(csa/valid? ::yeasts/yeast (sut/all-ingredients-by-type :yeast)))))
+(deftest ingredient-type->ingredient-list-test
+  (is (every? #(csa/valid? ::ferms/fermentable (sut/ingredient-type->ingredient-list :fermentables))))
+  (is (every? #(csa/valid? ::hops/hop (sut/ingredient-type->ingredient-list :hops))))
+  (is (every? #(csa/valid? ::yeasts/yeast (sut/ingredient-type->ingredient-list :yeast)))))
 
 (deftest ingredient-matches-query?-test
-  (let [sample-ingredient (first (filter #(= (:name %) "Belgian Candi Syrup - 45L") (sut/all-ingredients-by-type :fermentables)))]
+  (let [sample-ingredient (first (filter #(= (:name %) "Belgian Candi Syrup - 45L") (sut/ingredient-type->ingredient-list :fermentables)))]
     (is (true? (sut/ingredient-matches-query? {:name "Belgian Candi Syrup - 45L "} sample-ingredient)))
     (is (true? (sut/ingredient-matches-query? {:name " belgian"} sample-ingredient)))
     (is (true? (sut/ingredient-matches-query? {:name " 45L "} sample-ingredient)))
@@ -22,4 +22,10 @@
 (deftest search-ingredients-test
   (is (= 1 (count (sut/search-ingredients :fermentables {:name "Belgian Candi Syrup - 45L "}))))
   (is (seq (sut/search-ingredients :fermentables {:name " belgian"})))
-  (is (= (sut/all-ingredients-by-type :fermentables) (sut/search-ingredients :fermentables {:name ""}))))
+  (is (= (sut/ingredient-type->ingredient-list :fermentables) (sut/search-ingredients :fermentables {:name ""}))))
+
+(deftest get-ingredient-test
+  (is (= :no-match (sut/get-ingredient :hops :some-fake-key)))
+  (is (csa/valid? ::ferms/fermentable (sut/get-ingredient :fermentables (rand-nth (keys (sut/all-ingredients-by-type :fermentables))))))
+  (is (csa/valid? ::hops/hop (sut/get-ingredient :hops (rand-nth (keys (sut/all-ingredients-by-type :hops))))))
+  (is (csa/valid? ::yeasts/yeast (sut/get-ingredient :yeasts (rand-nth (keys (sut/all-ingredients-by-type :yeasts)))))))

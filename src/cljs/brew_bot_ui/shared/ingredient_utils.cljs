@@ -5,9 +5,13 @@
 (defn all-ingredients-by-type
   [ingredient-type]
   (case ingredient-type
-    :fermentables (vals ingredient-data/all-fermentables)
-    :hops         (vals ingredient-data/all-hops)
-    :yeasts       (vals ingredient-data/all-yeasts)))
+    :fermentables ingredient-data/all-fermentables
+    :hops         ingredient-data/all-hops
+    :yeasts       ingredient-data/all-yeasts))
+
+(defn ingredient-type->ingredient-list
+  [ingredient-type]
+  (vals (all-ingredients-by-type ingredient-type)))
 
 (defn ingredient-matches-query?
   [search-criteria ingredient]
@@ -15,6 +19,10 @@
 
 (defn search-ingredients
   [ingredient-type search-criteria]
-  (let [ingredients (all-ingredients-by-type ingredient-type)
+  (let [ingredients (ingredient-type->ingredient-list ingredient-type)
         filter-fn   (partial ingredient-matches-query? search-criteria)]
     (filter filter-fn ingredients)))
+
+(defn get-ingredient
+  [ingredient-type ingredient-key]
+  (get (all-ingredients-by-type ingredient-type) ingredient-key :no-match))
