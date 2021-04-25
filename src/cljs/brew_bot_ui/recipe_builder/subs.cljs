@@ -29,14 +29,29 @@
 (rf/reg-sub
  :yeast-search-criteria
  (fn [db _]
-   (get-in db [:search-boxes :yeast])))
+   (get-in db [:search-boxes :yeasts])))
 
 (rf/reg-sub
  :hop-search-criteria
  (fn [db _]
-   (get-in db [:search-boxes :hop])))
+   (get-in db [:search-boxes :hops])))
 
 (rf/reg-sub
  :fermentable-search-criteria
  (fn [db _]
-   (get-in db [:search-boxes :fermentable])))
+   (get-in db [:search-boxes :fermentables])))
+
+(rf/reg-sub
+ :yeast-search-results
+ (fn [db _]
+   (get-in db [:search-results :yeasts])))
+
+(rf/reg-sub
+ :hop-search-results
+ (fn [db _]
+   (get-in db [:search-results :hops])))
+
+(rf/reg-sub
+ :fermentable-search-results
+ (fn [db _]
+   (get-in db [:search-results :fermentables])))

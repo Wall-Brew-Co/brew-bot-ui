@@ -1,5 +1,6 @@
-(ns brew-bot-ui.shared.ingredient-utils
+(ns brew-bot-ui.utils.ingredients
   (:require [nnichols.string :as nns]
+            [nnichols.util :as nnu]
             [common-beer-format.data.data :as ingredient-data]))
 
 (defn all-ingredients-by-type
@@ -26,3 +27,8 @@
 (defn get-ingredient
   [ingredient-type ingredient-key]
   (get (all-ingredients-by-type ingredient-type) ingredient-key :no-match))
+
+(defn get-ingredient-by-name
+  [ingredient-type ingredient-name]
+  (let [ingredients (all-ingredients-by-type ingredient-type)]
+    (nnu/filter-by-values #(nns/string-includes? (:name %) ingredient-name) ingredients)))

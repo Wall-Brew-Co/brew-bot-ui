@@ -2,6 +2,7 @@
   (:require [brew-bot-ui.shared.components.buttons :as buttons]
             [brew-bot-ui.shared.components.inputs :as inputs]
             [brew-bot-ui.shared.components.util :as cu]
+            [clojure.string :as cs]
             [reagent.core :as r]
             [re-frame.core :as rf]))
 
@@ -115,13 +116,56 @@
                       :on-change   #(reset! search-val (-> % .-target .-value))}]]
        [:div {:class (cu/join-classes "text-base" "py-2")}
         [inputs/number {:value       @amount-val
-                         :id          "Sample number input"
-                         :label       "Amount"
-                         :min 0
-                         :max 10000
-                         :on-change   #(reset! amount-val (-> % .-target .-value))}]]
+                        :id          "Sample number input"
+                        :label       "Amount"
+                        :min 0
+                        :max 10000
+                        :on-change   #(reset! amount-val (-> % .-target .-value))}]]
        [:div {:class (cu/join-classes "text-sm" "py-2")}
         [buttons/button (str "Add " ingredient-type)]]])))
+
+(defn fermentables-box
+  []
+  (let [selected-fermentables (rf/subscribe [:fermentables])
+        search-criteria (rf/subscribe [:fermentable-search-criteria])
+        search-results (rf/subscribe [:fermentable-search-results])]
+    (fn []
+      (let [show-search-results? (and (seq @search-results) (not (cs/blank? (get-in @search-criteria [:name]))))]
+        [:div {:class (cu/join-classes "rounded-lg" "bg-gray-100" "divide-y" "divide-gray-400" "px-2" "sm:w-full" "md:w-full" "lg:w-5/12" "xl:w-5/12" "sm:my-4" "md:my-2" "lg:m-2" "xl:m-4")
+               :style {:padding "5px" :min-width "300px"}}
+         [:div {:class (cu/join-classes "text-center" "py-2")}
+          [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+           "Fermentables"]]
+         [:div {:class (cu/join-classes "text-base" "py-2")}
+          [inputs/text {:value       (:name @search-criteria)
+                        :id          "FermentableSearchInput"
+                        :label       "Search by ingredient name"
+                        :on-change   #(rf/dispatch [:ingredient-search :fermentables :name (-> % .-target .-value)])}]
+          (when show-search-results?
+            [:div {:class (cu/join-classes "bg-gray-200" "divide-y" "divide-gray-400")
+                   :style {:height 300 :width "100%" :overflow-y "scroll" :overflow-x "hidden"}}
+             (for [fermentable (sort-by :name @search-results)]
+               ^{:key (:name fermentable)}
+               [:div {:class (cu/join-classes "py-2" "hover:bg-gray-400" "cursor-pointer")
+                      :style {:width "99%"}}
+                [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+                 (:name fermentable)]
+                [:span {:class (cu/join-classes "text-sm" "flex" "flex-row")}
+                 [:p (str "Potential Gravity: " (:potential fermentable))
+                  [:br]
+                  (str "Color: " (:color fermentable))
+                  [:br]
+                  (str "Additional Notes: " (:notes fermentable))]]])])]
+ ;      [:div {:class (cu/join-classes "text-base" "py-2")}
+ ;       [inputs/number {:value       @amount-val
+ ;                       :id          "Sample number input"
+ ;                       :label       "Amount"
+ ;                       :min 0
+ ;                       :max 10000
+ ;                       :on-change   #(reset! amount-val (-> % .-target .-value))}]]
+ ;      [:div {:class (cu/join-classes "text-sm" "py-2")}
+ ;       [buttons/button (str "Add " ingredient-type)]]
+         ]))))
 
 (defn main-panel
   []
@@ -131,7 +175,7 @@
            :style {:width "100%"}}
      [recipe-facts]
      [:div {:class (cu/join-classes "flex" "flex-wrap" "sm:flex-col" "md:flex-col" "lg:flex-row" "xl:flex-row" "justify-center")}
-      [ingredient-box "Fermentables"]
+      [fermentables-box]
       [ingredient-box "Hops"]
       [ingredient-box "Yeasts"]
       [ingredient-box "Miscellaneous Ingredients"]]]))

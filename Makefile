@@ -30,10 +30,12 @@ artifacts:
 
 run/dev:
 	$(info Running the development environment...)
+	@ NODE_ENV=development npm run css
 	@ HEROKU_ENV=dev $(LEIN) dev-build
 
 run/selenium:
 	$(info Running the development environment for automated testing...)
+	@ NODE_ENV=development npm run css
 	@ HEROKU_ENV=test $(LEIN) selenium-build
 
 version/major:
