@@ -2,6 +2,7 @@
   (:require [brew-bot-ui.shared.components.buttons :as buttons]
             [brew-bot-ui.shared.components.inputs :as inputs]
             [brew-bot-ui.shared.components.util :as cu]
+            [brew-bot-ui.utils.fermentables :as f-utils]
             [clojure.string :as cs]
             [reagent.core :as r]
             [re-frame.core :as rf]))
@@ -124,48 +125,79 @@
        [:div {:class (cu/join-classes "text-sm" "py-2")}
         [buttons/button (str "Add " ingredient-type)]]])))
 
+(defn empty-search-result
+  [_ingredient-type]
+  (fn [ingredient-type]
+    [:div {:id    (str (name ingredient-type) "EmptySearchResult")
+           :class (cu/join-classes "bg-gray-200" "divide-y" "divide-gray-400")
+           :style {:width "100%"}}
+     [:div {:class (cu/join-classes "py-2" "hover:bg-gray-400")
+            :style {:width "99%"}}
+      [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+       "No Results Found"]
+      [:span {:class (cu/join-classes "text-sm")}
+       [:p (str "Could not find any matching " (name ingredient-type) ".")
+        [:br]
+        "Please try a different query."]]]]))
+
+(defn fermentable-search-result
+  [_fermentable]
+  (fn [fermentable]
+    (let [id         (cu/->html-id (str (:name fermentable) "SearchResult"))
+          color-unit (f-utils/fermentable->color-unit fermentable)]
+      [:div {:class (cu/join-classes "py-2" "hover:bg-gray-400" "cursor-pointer")
+             :style {:width "99%"}
+             :id    id
+             :on-click #(rf/dispatch [:add-ingredient :fermentables fermentable])}
+       [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+        (:name fermentable)]
+       [:span {:class (cu/join-classes "text-sm" "flex" "flex-row")}
+        [:p (str "Potential Gravity: " (:potential fermentable))
+         [:br]
+         (str "Color: " (:color fermentable) color-unit)
+         [:br]
+         (str "Additional Notes: " (:notes fermentable))]]])))
+
 (defn fermentables-box
   []
   (let [selected-fermentables (rf/subscribe [:fermentables])
-        search-criteria (rf/subscribe [:fermentable-search-criteria])
-        search-results (rf/subscribe [:fermentable-search-results])]
+        search-criteria       (rf/subscribe [:fermentable-search-criteria])
+        search-results        (rf/subscribe [:fermentable-search-results])]
     (fn []
-      (let [show-search-results? (and (seq @search-results) (not (cs/blank? (get-in @search-criteria [:name]))))]
+      (let [empty-search? (cs/blank? (get-in @search-criteria [:name]))
+            show-search-results?  (and (seq @search-results) (not empty-search?))
+            empty-search-results? (and (empty? @search-results) (not empty-search?))]
         [:div {:class (cu/join-classes "rounded-lg" "bg-gray-100" "divide-y" "divide-gray-400" "px-2" "sm:w-full" "md:w-full" "lg:w-5/12" "xl:w-5/12" "sm:my-4" "md:my-2" "lg:m-2" "xl:m-4")
-               :style {:padding "5px" :min-width "300px"}}
-         [:div {:class (cu/join-classes "text-center" "py-2")}
+               :style {:padding   "5px"
+                       :min-width "300px"}}
+         [:div {:class (cu/join-classes "text-center" "py-4")}
           [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
            "Fermentables"]]
          [:div {:class (cu/join-classes "text-base" "py-2")}
-          [inputs/text {:value       (:name @search-criteria)
-                        :id          "FermentableSearchInput"
-                        :label       "Search by ingredient name"
-                        :on-change   #(rf/dispatch [:ingredient-search :fermentables :name (-> % .-target .-value)])}]
-          (when show-search-results?
+          [inputs/text {:value     (:name @search-criteria)
+                        :id        "FermentableSearchInput"
+                        :label     "Search by ingredient name"
+                        :on-change #(rf/dispatch [:ingredient-search :fermentables :name (-> % .-target .-value)])}]
+          (cond
+            empty-search-results? [empty-search-result :fermentables]
+
+            show-search-results? [:div {:class (cu/join-classes "bg-gray-200" "divide-y" "divide-gray-400")
+                                        :style {:height     300
+                                                :width      "100%"
+                                                :overflow-y "scroll"
+                                                :overflow-x "hidden"}}
+                                  (for [fermentable (sort-by :name @search-results)]
+                                    ^{:key (:name fermentable)} [fermentable-search-result fermentable])])
+          (when-not empty-search?
+            [:a {:class (cu/join-classes "text-sm" "text-red-500" "text-underline" "cursor-pointer")
+                 :on-click #(rf/dispatch [:ingredient-search :fermentables :name ""])}
+              "Clear"])
+          (if (empty? @selected-fermentables)
+            [:div {:class (cu/join-classes "text-base" "py-4")} "No Selections Made"]
             [:div {:class (cu/join-classes "bg-gray-200" "divide-y" "divide-gray-400")
-                   :style {:height 300 :width "100%" :overflow-y "scroll" :overflow-x "hidden"}}
-             (for [fermentable (sort-by :name @search-results)]
-               ^{:key (:name fermentable)}
-               [:div {:class (cu/join-classes "py-2" "hover:bg-gray-400" "cursor-pointer")
-                      :style {:width "99%"}}
-                [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
-                 (:name fermentable)]
-                [:span {:class (cu/join-classes "text-sm" "flex" "flex-row")}
-                 [:p (str "Potential Gravity: " (:potential fermentable))
-                  [:br]
-                  (str "Color: " (:color fermentable))
-                  [:br]
-                  (str "Additional Notes: " (:notes fermentable))]]])])]
- ;      [:div {:class (cu/join-classes "text-base" "py-2")}
- ;       [inputs/number {:value       @amount-val
- ;                       :id          "Sample number input"
- ;                       :label       "Amount"
- ;                       :min 0
- ;                       :max 10000
- ;                       :on-change   #(reset! amount-val (-> % .-target .-value))}]]
- ;      [:div {:class (cu/join-classes "text-sm" "py-2")}
- ;       [buttons/button (str "Add " ingredient-type)]]
-         ]))))
+                   :style {:width "100%"}}
+             (for [fermentable (sort-by :name @selected-fermentables)]
+               ^{:key (random-uuid)} [fermentable-search-result fermentable])])]]))))
 
 (defn main-panel
   []

@@ -9,19 +9,25 @@
    {:dispatch [:stay-alive]
     :db       db/default-db}))
 
-(defn update-ingredient
-  [db ingredient-type ingredient-key amount]
-  (let [current-state (get-in db [:recipe ingredient-type ingredient-key])]
-     (if current-state
-       (update-in db [:recipe ingredient-type ingredient-key :amount] + amount)
-       (let [base-ingredient (util/get-ingredient ingredient-type ingredient-key)
-             new-ingredient (assoc base-ingredient :amount amount)]
-         (assoc-in db [:recipe ingredient-type ingredient-key] new-ingredient)))))
+(defn add-ingredient
+  [db ingredient-type ingredient]
+  (update-in db [:recipe ingredient-type] conj ingredient))
 
 (rf/reg-event-db
- :update-ingredient
- (fn [db [_ [_ ingredient-type ingredient-key amount]]]
-   (update-ingredient db ingredient-type ingredient-key amount)))
+ :add-ingredient
+ (fn [db [_ ingredient-type ingredient]]
+   (add-ingredient db ingredient-type ingredient)))
+
+(defn delete-ingredient
+  [db ingredient-type ingredient]
+  (let [ingredients (get-in db [:recipe ingredient-type])
+        new-ingredients (remove #(= ingredient %) ingredients)]
+    (assoc-in db [:recipe ingredient-type] new-ingredients)))
+
+(rf/reg-event-db
+ :delete-ingredient
+ (fn [db [_ ingredient-type ingredient]]
+   (delete-ingredient db ingredient-type ingredient)))
 
 (defn ingredient-search
   [db ingredient-type search-key search-criteria]

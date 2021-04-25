@@ -2,9 +2,9 @@
 
 (def ^:const default-db
   {:current-page :home
-   :recipe       {:fermentables {}
-                  :hops         {}
-                  :yeasts       {}}
+   :recipe       {:fermentables []
+                  :hops         []
+                  :yeasts       []}
    :search-boxes {:fermentables {}
                   :hops         {}
                   :yeasts       {}}
