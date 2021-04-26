@@ -5,6 +5,7 @@
             [day8.re-frame.http-fx]
             [district0x.re-frame.google-analytics-fx]
             [reagent.core :as r]
+            [reagent.dom :as r-dom]
             [re-frame.core :as rf]
 
             ;; All Event/Sub namespaces must be included to load properly
@@ -19,7 +20,7 @@
   "Render the main app panel, and mount it to the window"
   []
   (rf/clear-subscription-cache!)
-  (r/render [#'layout/main-panel] (.getElementById js/document "app")))
+  (r-dom/render [#'layout/main-panel] (.getElementById js/document "app")))
 
 (defn ^:export init
   "Initialize the app db, and mount the application.
