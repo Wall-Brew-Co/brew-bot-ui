@@ -133,4 +133,4 @@ make deploy/prod
 
 ## License
 
-Copyright © 2020 - [Wall Brew Co](https://wallbrew.com/)
+Copyright © 2020-2021 - [Wall Brew Co](https://wallbrew.com/)
