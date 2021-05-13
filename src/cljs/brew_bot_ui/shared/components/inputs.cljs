@@ -2,7 +2,7 @@
   (:require [brew-bot-ui.shared.components.util :as util]))
 
 (def text-input-class
-  {:class (util/join-classes "w-full" "p-4" "rounded-sm" "bg-pearl-gray" "border" "shadow-sm" "has-float-label" "flex" "leading-relaxed" "focus:outline-none" "focus:shadow-outline" "block")})
+  {:class (util/join-classes "w-full" "p-4" "rounded-sm" "bg-pearl-gray" "border" "shadow-sm" "has-float-label" "flex" "leading-relaxed" "focus:outline-none" "focus:ring" "block")})
 
 (def text-style
   {:style {:padding      "0px"

@@ -57,7 +57,7 @@
 }
 
 .checkbox input[type="checkbox"]:focus + label::before {
-  @apply shadow-outline;
+  @apply ring;
 }
 
 /* Error styles */

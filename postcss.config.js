@@ -1,7 +1,6 @@
 const postcssImport = require('postcss-import');
 const tailwindCss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
-const csso = require('postcss-csso');
 const purgecss = require('@fullhuman/postcss-purgecss')({
     content: ['./src/**/*.cljs'],
     defaultExtractor: content => {
@@ -23,7 +22,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 
 const plugins = [postcssImport, tailwindCss, autoprefixer];
 
-const productionPlugins = [...plugins, purgecss, csso];
+const productionPlugins = [...plugins, purgecss];
 
 module.exports = ({ env, options }) => {
     const isProduction = env === 'production';
@@ -34,3 +33,5 @@ module.exports = ({ env, options }) => {
         map: !isProduction
     };
 };
+
+module.exports.postcss = true
