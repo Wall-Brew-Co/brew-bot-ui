@@ -22,21 +22,34 @@ tests/app:
 
 tests/all:
 	$(info Running server-side and client-side tests...)
-	@ HEROKU_ENV=test $(LEIN) test-build
+	@ HEROKU_ENV=test $(LEIN) test-runner
 
 artifacts:
 	$(info Packaging production-like uberjar and client application...)
+	@ NODE_ENV=production npm run css
 	@ HEROKU_ENV=prod $(LEIN) prod-build
 
-run/dev:
-	$(info Running the development environment...)
-	@ NODE_ENV=development npm run css
-	@ HEROKU_ENV=dev $(LEIN) dev-build
+run/dev/tailwind:
+	$(info Starting Tailwind Hot Reloading...)
+	@ NODE_ENV=development npm run css:watch
+
+run/dev/server:
+	$(info Starting Clojure/Ring Hot Reloading...)
+	@ HEROKU_ENV=dev $(LEIN) dev-server
+
+run/dev/recipe-builder:
+	$(info Starting Clojurescript Hot Reloading...)
+	@ HEROKU_ENV=dev $(LEIN) recipe-dev-build
 
 run/selenium:
 	$(info Running the development environment for automated testing...)
 	@ NODE_ENV=development npm run css
 	@ HEROKU_ENV=test $(LEIN) selenium-build
+
+run/prod:
+	$(info Running the production environment locally...)
+	@ NODE_ENV=production npm run css
+	@ HEROKU_ENV=prod $(LEIN) prod-runner
 
 version/major:
 	$(info Updating major version and adding CHANGELOG entry...)

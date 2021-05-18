@@ -9,13 +9,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2.3.4
+
     - name: Install Clojure/ClojureScript dependencies
       run: lein deps
+
     - name: Package uberjar
       run: lein uberjar
+
     - name: Install node.js dependencies
       run: npm install
+
     - name: Run all tests
-      run: lein test-build
+      run: lein test-runner
       env:
         HEROKU_ENV: test

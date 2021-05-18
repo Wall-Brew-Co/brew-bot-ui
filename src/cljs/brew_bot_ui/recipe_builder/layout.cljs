@@ -1,5 +1,6 @@
 (ns brew-bot-ui.recipe-builder.layout
   (:require [brew-bot-ui.shared.components.buttons :as buttons]
+            [brew-bot-ui.shared.components.icons :as icons]
             [brew-bot-ui.shared.components.inputs :as inputs]
             [brew-bot-ui.shared.components.util :as cu]
             [brew-bot-ui.utils.fermentables :as f-utils]
@@ -140,23 +141,47 @@
         [:br]
         "Please try a different query."]]]]))
 
+(defn ingredient-fact
+  [_fact-title _fact-display-value]
+  (fn [fact-title fact-display-value]
+    [:p [:b [:u fact-title]] (str ": " fact-display-value)]))
+
 (defn fermentable-search-result
   [_fermentable]
   (fn [fermentable]
-    (let [id         (cu/->html-id (str (:name fermentable) "SearchResult"))
-          color-unit (f-utils/fermentable->color-unit fermentable)]
-      [:div {:class (cu/join-classes "py-2" "hover:bg-gray-400" "cursor-pointer")
-             :style {:width "99%"}
-             :id    id
+    (let [id          (cu/->html-id (str (:name fermentable) "SearchResult"))
+          color-unit  (f-utils/fermentable->color-unit fermentable)
+          max-percent (* 100.0 (:max-in-batch fermentable))]
+      [:div {:class    (cu/join-classes "py-2" "hover:bg-gray-400" "cursor-pointer")
+             :style    {:width "99%"}
+             :id       id
              :on-click #(rf/dispatch [:add-ingredient :fermentables fermentable])}
        [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
         (:name fermentable)]
-       [:span {:class (cu/join-classes "text-sm" "flex" "flex-row")}
-        [:p (str "Potential Gravity: " (:potential fermentable))
-         [:br]
-         (str "Color: " (:color fermentable) color-unit)
-         [:br]
-         (str "Additional Notes: " (:notes fermentable))]]])))
+       [:span {:class (cu/join-classes "text-md")}
+         [ingredient-fact "Potential Gravity" (:potential fermentable)]
+         [ingredient-fact "Color" (str (:color fermentable) color-unit)]
+         [ingredient-fact "Maximum Recommended Amount" (str max-percent "%")]
+         [ingredient-fact "Notes" (:notes fermentable)]]])))
+
+(defn fermentable-addition-box
+  [_fermentable]
+  (fn [fermentable]
+    (let [id          (cu/->html-id (str (:name fermentable) "AdditionBox"))
+          color-unit  (f-utils/fermentable->color-unit fermentable)
+          max-percent (* 100.0 (:max-in-batch fermentable))]
+      [:div {:class (cu/join-classes "py-2")
+             :style {:width "99%"}
+             :id    id}
+       [:div {:class (cu/join-classes "flex" "flex-row")}
+       [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+        (:name fermentable)]
+       [icons/icon :delete {}]]
+       [:span {:class (cu/join-classes "text-md")}
+        [ingredient-fact "Potential Gravity" (:potential fermentable)]
+        [ingredient-fact "Color" (str (:color fermentable) color-unit)]
+        [ingredient-fact "Maximum Recommended Amount" (str max-percent "%")]
+        [ingredient-fact "Notes" (:notes fermentable)]]])))
 
 (defn fermentables-box
   []
@@ -191,13 +216,13 @@
           (when-not empty-search?
             [:a {:class (cu/join-classes "text-sm" "text-red-500" "text-underline" "cursor-pointer")
                  :on-click #(rf/dispatch [:ingredient-search :fermentables :name ""])}
-              "Clear"])
+              "Clear"])]
           (if (empty? @selected-fermentables)
             [:div {:class (cu/join-classes "text-base" "py-4")} "No Selections Made"]
-            [:div {:class (cu/join-classes "bg-gray-200" "divide-y" "divide-gray-400")
+            [:div {:class (cu/join-classes "text-base" "divide-y" "divide-gray-400")
                    :style {:width "100%"}}
              (for [fermentable (sort-by :name @selected-fermentables)]
-               ^{:key (random-uuid)} [fermentable-search-result fermentable])])]]))))
+               ^{:key (random-uuid)} [fermentable-addition-box fermentable])])]))))
 
 (defn main-panel
   []

@@ -7,6 +7,7 @@
    :chevron-left         "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
    :chevron-right        "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
    :close                "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+   :delete               "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
    :filter-list          "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
    :info                 "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
    :keyboard-arrow-down  "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
@@ -31,16 +32,20 @@
 (defn icon
   "Generates icon given an icon id."
   [_icon-name _attrs]
-  (fn [icon-name {:keys [width height style title] :as attrs}]
-    (let [icon-path  (get icon-svg-paths icon-name)
-          width      (or width 24)
-          height     (or height 24)
-          view-box   (str "0 0 " height " " width)
-          icon-style (merge icon-defaults {:height height
-                                           :width  width} style)]
+  (fn [icon-name {:keys [width height style title color stroke-width]
+                  :as   attrs}]
+    (let [icon-path    (get icon-svg-paths icon-name)
+          width        (or width 24)
+          height       (or height 24)
+          stroke-width (or stroke-width 3)
+          view-box     (str "0 0 " height " " width)
+          icon-style   (merge icon-defaults {:height height
+                                             :width  width} style)]
       [:svg (merge attrs
                    {:view-box view-box
                     :style    icon-style})
        (when title
          [:title title])
-       [:path {:d icon-path}]])))
+       [:path {:d            icon-path
+               :stroke       color
+               :stroke-width stroke-width}]])))
