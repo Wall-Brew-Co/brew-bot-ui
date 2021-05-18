@@ -1,44 +1,19 @@
 # brew-bot-ui
 
-The SPA/back-end for brew-bot
+The SPA version of [brew-bot.](https://github.com/Wall-Brew-Co/brew-bot)
+
+To view the current production build, please visit [Wall Brew's main site.](https://brewbot.wallbrew.com/)
+
+To view the current health and running state of the application, please navigate to Heroku.
 
 ## Development
 
 ### Client and Server
 
 The entire project's build is managed by [Leiningen.](https://leiningen.org/)
-The most important build configurations have all been aliased with corresponding Makefile entries.
-Depending on the type of testing or development you need to do, you'll need to invoke one of the following commands:
-
-#### Production
-
-```bash
-make artifacts
-```
-
-The full production build of the application.
-This will create an uberjar and package the client application as well.
-This is useful for testing advanced compilation options and catching what would otherwise be runtime errors.
-
-#### Local Development
-
-```bash
-make run/dev
-```
-
-This will forcibly re-compile and launch the development server.
-Once the client-side app has finished compilation, it will open a new tab in your default browser.
-This is useful for standard development.
-
-#### Automation Testing
-
-```bash
-make run/selenium
-```
-
-This will forcibly re-compile and launch the development server in test mode.
-Once the client-side app has finished compilation, it will open a new tab in your default browser.
-This disables some tooling to create an application version that is easily accessed by the Wall Brew automation test suite.
+The most important build configurations have all been aliased with corresponding Makefile targets.
+Depending on the type of testing or development you need to do, you'll need to invoke one or more of them.
+Full documentation is available in the [local development notes.](/documentation/development/local.md)
 
 ## Unit Testing
 
@@ -56,14 +31,14 @@ npm install
 From there, you can execute both test suites with the following Make target:
 
 ```bash
-tests/all
+make tests/all
 ```
 
 If you only want to run tests for one runtime environment at a time, similar targets are available:
 
 ```bash
-tests/server
-tests/app
+make tests/server
+make tests/app
 ```
 
 ## Deployment

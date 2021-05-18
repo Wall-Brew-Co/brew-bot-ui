@@ -74,10 +74,12 @@
                                                           {"base"  "ChromeHeadless"
                                                            "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
 
-  :aliases {"prod-build"     ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["uberjar"]]
-            "dev-build"      ["do" "clean" ["cljsbuild" "once" "recipe-builder-dev"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
-            "selenium-build" ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "selenium" "-r"]]
-            "test-build"     ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
+  :aliases {"prod-build"       ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["uberjar"]]
+            "prod-runner"      ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "dev-server"       ["do" "clean" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
+            "recipe-dev-build" ["do" "clean" ["cljsbuild" "auto" "recipe-builder-dev"]]
+            "selenium-build"   ["do" "clean" ["cljsbuild" "once" "test"] ["trampoline" "run" "-m" "figwheel.main" "-b" "selenium" "-r"]]
+            "test-runner"      ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
 
   :profiles {:production {:env {:production true}}
              :uberjar {:omit-source  true
