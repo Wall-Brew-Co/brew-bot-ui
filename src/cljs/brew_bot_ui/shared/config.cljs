@@ -13,9 +13,9 @@
 (def config-by-domain
   "Map from domains to config key paths."
   (array-map
-    "wallbrew"  [:wb-prod]
-    "heroku"    [:hk-prod]
-    "localhost" [:dev]))
+   "wallbrew"  [:wb-prod]
+   "heroku"    [:hk-prod]
+   "localhost" [:dev]))
 
 (defn get-domain-by-location
   "Returns the domain corresponding to the current browser location."

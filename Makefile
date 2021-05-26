@@ -85,3 +85,6 @@ release/css:
 
 format/terraform:
 	@ $(TERR) fmt -recursive
+
+format/clojure:
+	@ $(LEIN) cljfmt fix

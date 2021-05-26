@@ -1,5 +1,5 @@
 (ns brew-bot-ui.shared.components.buttons
-   (:require [brew-bot-ui.shared.components.util :as util]))
+  (:require [brew-bot-ui.shared.components.util :as util]))
 
 (def button-class
   {:class (util/join-classes "text-lg" "cursor-pointer" "focus:outline-none" "focus:ring" "btn-rounded")})

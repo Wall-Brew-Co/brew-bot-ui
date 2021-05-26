@@ -159,10 +159,10 @@
        [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
         (:name fermentable)]
        [:span {:class (cu/join-classes "text-md")}
-         [ingredient-fact "Potential Gravity" (:potential fermentable)]
-         [ingredient-fact "Color" (str (:color fermentable) color-unit)]
-         [ingredient-fact "Maximum Recommended Amount" (str max-percent "%")]
-         [ingredient-fact "Notes" (:notes fermentable)]]])))
+        [ingredient-fact "Potential Gravity" (:potential fermentable)]
+        [ingredient-fact "Color" (str (:color fermentable) color-unit)]
+        [ingredient-fact "Maximum Recommended Amount" (str max-percent "%")]
+        [ingredient-fact "Notes" (:notes fermentable)]]])))
 
 (defn fermentable-addition-box
   [_fermentable]
@@ -174,9 +174,9 @@
              :style {:width "99%"}
              :id    id}
        [:div {:class (cu/join-classes "flex" "flex-row")}
-       [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
-        (:name fermentable)]
-       [icons/icon :delete {}]]
+        [:h3 {:class (cu/join-classes "text-lg" "font-semibold")}
+         (:name fermentable)]
+        [icons/icon :delete {}]]
        [:span {:class (cu/join-classes "text-md")}
         [ingredient-fact "Potential Gravity" (:potential fermentable)]
         [ingredient-fact "Color" (str (:color fermentable) color-unit)]
@@ -216,13 +216,13 @@
           (when-not empty-search?
             [:a {:class (cu/join-classes "text-sm" "text-red-500" "text-underline" "cursor-pointer")
                  :on-click #(rf/dispatch [:ingredient-search :fermentables :name ""])}
-              "Clear"])]
-          (if (empty? @selected-fermentables)
-            [:div {:class (cu/join-classes "text-base" "py-4")} "No Selections Made"]
-            [:div {:class (cu/join-classes "text-base" "divide-y" "divide-gray-400")
-                   :style {:width "100%"}}
-             (for [fermentable (sort-by :name @selected-fermentables)]
-               ^{:key (random-uuid)} [fermentable-addition-box fermentable])])]))))
+             "Clear"])]
+         (if (empty? @selected-fermentables)
+           [:div {:class (cu/join-classes "text-base" "py-4")} "No Selections Made"]
+           [:div {:class (cu/join-classes "text-base" "divide-y" "divide-gray-400")
+                  :style {:width "100%"}}
+            (for [fermentable (sort-by :name @selected-fermentables)]
+              ^{:key (random-uuid)} [fermentable-addition-box fermentable])])]))))
 
 (defn main-panel
   []

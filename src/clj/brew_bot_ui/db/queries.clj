@@ -43,6 +43,6 @@
               :metadata       metadata-json}]
         q (sql/format (-> (helpers/insert-into :beer_recipes)
                           (helpers/values row)))]
-     (db/execute! q)))
+    (db/execute! q)))
 
 (keg/tap #'insert-recipe keg/pour-runtime-args-and-return)
