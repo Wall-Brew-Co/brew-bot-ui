@@ -1,6 +1,7 @@
 
 MAKE = make
 LEIN = lein
+TERR = terraform
 
 # These are the locations of the directories we'll use
 TARGET_DIR = target
@@ -81,3 +82,6 @@ deploy/prod:
 
 release/css:
 	@ NODE_ENV=production npm run css
+
+format/terraform:
+	@ $(TERR) fmt -recursive
