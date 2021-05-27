@@ -20,8 +20,7 @@
 (defn get-domain-by-location
   "Returns the domain corresponding to the current browser location."
   []
-  (let [loc (.-href (.-location js/document))
-        _ (println loc)]
+  (let [loc (.-href (.-location js/document))]
     (or (first (filter #(cs/includes? loc %) (keys config-by-domain)))
         "localhost")))
 
