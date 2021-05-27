@@ -1,4 +1,4 @@
-name: Labeler
+name: Labeling and Linting
 on: [pull_request]
 
 jobs:
@@ -43,6 +43,15 @@ jobs:
         uses: DeLaGuardo/setup-clojure@3.2
         with:
           lein: 2.9.1
+
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v2
+        env:
+            cache-name: cache-maven
+        with:
+            path: ~/.m2
+            key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
+            restore-keys: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
 
       - name: Auto-Format Clojure
         run: lein cljfmt fix

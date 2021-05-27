@@ -10,6 +10,24 @@ jobs:
     steps:
     - uses: actions/checkout@v2.3.4
 
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v2
+      env:
+          cache-name: cache-maven
+      with:
+          path: ~/.m2
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
+
+    - name: Cache NPM Dependencies
+      uses: actions/cache@v2
+      env:
+          cache-name: cache-npm
+      with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
     - name: Install Clojure/ClojureScript dependencies
       run: lein deps
 
