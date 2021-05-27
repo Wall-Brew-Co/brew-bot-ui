@@ -1,8 +1,8 @@
 (defproject com.wallbrew/brew-bot-ui "0.9.0"
   :description "brew-bot, but in space!"
   :url "https://github.com/nnichols/brew-bot-ui"
-  :license {:name "Eclipse Public License v1.0"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "MIT"
+            :url  "https://opensource.org/licenses/MIT"}
   :dependencies [[amalloy/ring-gzip-middleware "0.1.4"]
                  [brew-bot "2.2.0"]
                  [cheshire "5.10.0"]
@@ -71,9 +71,8 @@
                             "browserDisconnectTolerance" 3
                             "browserDisconnectTimeout"   210000
                             "browserNoActivityTimeout"   210000
-                            "customLaunchers"            {"ChromeHeadlessNoSandbox"
-                                                          {"base"  "ChromeHeadless"
-                                                           "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
+                            "customLaunchers"            {"ChromeHeadlessNoSandbox" {"base"  "ChromeHeadless"
+                                                                                     "flags" ["--no-sandbox" "--disable-dev-shm-usage"]}}}}}
 
   :aliases {"prod-build"       ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["uberjar"]]
             "prod-runner"      ["do" "clean" ["cljsbuild" "once" "recipe-builder-prod"] ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]]
@@ -83,23 +82,23 @@
             "test-runner"      ["do" "clean" ["cljsbuild" "once" "test"] ["doo" "once"] ["test"]]}
 
   :profiles {:production {:env {:production true}}
-             :uberjar {:omit-source  true
-                       :prep-tasks   ["compile" ["cljsbuild" "once" "recipe-builder-prod"]]
-                       :dependencies [[day8.re-frame/tracing-stubs "0.6.0"]]
-                       :aot          :all
-                       :source-paths ["env/uberjar/clj"]}
-             :repl {:main brew-bot-ui.core}
-             :dev {:dependencies [[circleci/bond "0.5.0"]
-                                  [com.bhauman/figwheel-main "0.2.12"]
-                                  [com.bhauman/rebel-readline-cljs "0.1.4"]
-                                  [day8.re-frame/re-frame-10x "0.7.0"]
-                                  [doo "0.1.11"]
-                                  [javax.servlet/servlet-api "2.5"]
-                                  [ring/ring-mock "0.4.0"]]
-                   :source-paths ["src/clj" "src/cljc" "src/cljs" "env/local/clj" "env/local/cljs"]
-                   :plugins      [[lein-doo "0.1.10"]]
-                   :repl-options   {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]
-                                    :init-ns          user}}}
+             :uberjar    {:omit-source  true
+                          :prep-tasks   ["compile" ["cljsbuild" "once" "recipe-builder-prod"]]
+                          :dependencies [[day8.re-frame/tracing-stubs "0.6.0"]]
+                          :aot          :all
+                          :source-paths ["env/uberjar/clj"]}
+             :repl       {:main brew-bot-ui.core}
+             :dev        {:dependencies [[circleci/bond "0.5.0"]
+                                         [com.bhauman/figwheel-main "0.2.12"]
+                                         [com.bhauman/rebel-readline-cljs "0.1.4"]
+                                         [day8.re-frame/re-frame-10x "0.7.0"]
+                                         [doo "0.1.11"]
+                                         [javax.servlet/servlet-api "2.5"]
+                                         [ring/ring-mock "0.4.0"]]
+                          :source-paths ["src/clj" "src/cljc" "src/cljs" "env/local/clj" "env/local/cljs"]
+                          :plugins      [[lein-doo "0.1.10"]]
+                          :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]
+                                         :init-ns          user}}}
 
   :cljsbuild {:builds [{:id           "recipe-builder-prod"
                         :source-paths ["src/cljs/brew_bot_ui/shared" "src/cljs/brew_bot_ui/recipe_builder" "src/cljc"]
