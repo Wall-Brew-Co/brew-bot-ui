@@ -77,7 +77,3 @@ resource "heroku_formation" "server" {
   size       = "hobby"
   depends_on = [heroku_build.server]
 }
-
-output "app_url" {
-  value = "https://${heroku_app.server.name}.herokuapp.com"
-}
