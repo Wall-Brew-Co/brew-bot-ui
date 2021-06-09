@@ -12,7 +12,7 @@
       "dev"))
 
 (def port
-  (or (parse/try-parse-int (System/getenv "PORT")) 8000))
+  (delay (parse/try-parse-int (System/getenv "PORT"))))
 
 (def database-url
   (java.net.URI. (or (System/getenv "DATABASE_URL")
@@ -35,8 +35,7 @@
    :server-name   database-url})
 
 (def ^:const features
-  {"dev"  {:nrepl-port    7000 ; when :nrepl-port is set the application starts the nREPL server on load. This is only safe in dev
-           :route-logging true
+  {"dev"  {:route-logging true
            :debug-routes? true
            :logger        :clojure
            :force-ssl?    false
@@ -70,8 +69,7 @@
 (def nrepl-port
   (get-in features [environment :nrepl-port]))
 
-(def google-analytics-id
-  "UA-127942415-2")
+(def google-analytics-id "UA-127942415-2")
 
 (def local-env?
   (boolean (#{"dev" "test"} environment)))

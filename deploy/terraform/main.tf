@@ -65,7 +65,7 @@ resource "heroku_build" "server" {
 
   source = {
     url     = "https://github.com/nnichols/brew-bot-ui/archive/${var.app_version}.tar.gz"
-    version = "${var.app_version}"
+    version = var.app_version
   }
 }
 
@@ -76,8 +76,4 @@ resource "heroku_formation" "server" {
   quantity   = 1
   size       = "hobby"
   depends_on = [heroku_build.server]
-}
-
-output "app_url" {
-  value = "https://${heroku_app.server.name}.herokuapp.com"
 }

@@ -1,12 +1,12 @@
 # Terraform variables
 variable "app_name" {
-  type = string
+  type        = string
   description = "Name of the Heroku application"
-  default = "brew-bot-server"
+  default     = "brew-bot-server"
 }
 
 variable "app_version" {
-  type = string
+  type        = string
   description = "Current, tagged version of the application"
-  default = "v0.9.0"
+  default     = "v0.9.0"
 }

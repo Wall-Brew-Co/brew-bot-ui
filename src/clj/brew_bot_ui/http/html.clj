@@ -36,9 +36,7 @@
         render-opts   (add-default-page-values render-params)]
     (ring/content-type (ring/ok (parser/render-file template render-opts)) "text/html; charset=utf-8")))
 
-(defn index [] (render "index.html"))
-
-#_(defn example [] (render "example.html" {:title "Wall Brew"}))
+(defn recipe-builder [] (render "recipe_builder.html"))
 
 (defn error-page
   "error-details should be a map containing the following keys:

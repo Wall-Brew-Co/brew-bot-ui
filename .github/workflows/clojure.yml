@@ -1,6 +1,6 @@
 name: Clojure/ClojureScript CI
 
-on: [push]
+on: ["push", "workflow_dispatch"]
 
 jobs:
   build:
@@ -8,14 +8,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2.3.4
+
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v2
+      env:
+          cache-name: cache-maven
+      with:
+          path: ~/.m2
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/project.clj') }}
+
+    - name: Cache NPM Dependencies
+      uses: actions/cache@v2
+      env:
+          cache-name: cache-npm
+      with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
     - name: Install Clojure/ClojureScript dependencies
       run: lein deps
+
     - name: Package uberjar
       run: lein uberjar
+
     - name: Install node.js dependencies
       run: npm install
+
     - name: Run all tests
-      run: lein test-build
+      run: lein test-runner
       env:
         HEROKU_ENV: test
